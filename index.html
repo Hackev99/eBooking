@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eBooking System | Agricultural Logistics</title>
+    <title>eBooking System | Tomato Harvest Logistics</title>
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
         :root {
-            --primary: #27ae60;
-            --primary-dark: #1e8449;
-            --accent: #f39c12;
-            --dark: #2c3e50;
-            --light: #f4f7f6;
+            /* Updated to Tomato-Red Palette */
+            --primary: #d32f2f; /* Deep Tomato Red */
+            --primary-dark: #b71c1c;
+            --accent: #ffb300; /* Harvest Gold */
+            --dark: #1a1a1a;
+            --light: #fdfaf9;
             --white: #ffffff;
-            --gray: #7f8c8d;
+            --gray: #757575;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -29,9 +30,11 @@
 
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-transform: uppercase; }
         .logo span { color: var(--dark); }
+        
         .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; }
-        .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; }
+        
+        .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; }
 
         .hero { display: flex; align-items: center; justify-content: space-between; padding: 4rem 8%; gap: 3rem; min-height: 80vh; }
         .hero-text { flex: 1.2; }
@@ -39,7 +42,7 @@
         .hero-text h1 span { color: var(--primary); }
         .hero-text p { font-size: 1.2rem; color: var(--gray); margin-bottom: 2.5rem; max-width: 600px; }
 
-        /* The Operations-Only Card */
+        /* The Operations Card - Red Accents */
         .hero-visual { flex: 0.8; display: flex; justify-content: center; }
         .ops-card {
             background: var(--dark);
@@ -47,13 +50,13 @@
             width: 400px;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 30px 60px rgba(211, 47, 47, 0.15); /* Subtle red shadow */
             position: relative;
         }
 
         .ops-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
         .ops-header h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
-        .sync-tag { font-size: 0.7rem; background: rgba(39, 174, 96, 0.2); padding: 2px 8px; border-radius: 10px; color: var(--primary); }
+        .sync-tag { font-size: 0.7rem; background: rgba(211, 47, 47, 0.2); padding: 2px 8px; border-radius: 10px; color: #ff8a80; }
         
         .main-stat { margin-bottom: 2rem; text-align: center; }
         .main-stat .value { font-size: 3.5rem; font-weight: 800; display: block; color: var(--white); }
@@ -79,13 +82,13 @@
         .pulse {
             width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
             display: inline-block;
-            animation: pulse-green 2s infinite;
+            animation: pulse-red 2s infinite;
         }
 
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
         }
 
         .cta-group { display: flex; gap: 1.2rem; }
@@ -93,6 +96,8 @@
         .btn-main { background: var(--primary); color: white; }
         .btn-alt { background: white; color: var(--dark); border: 2px solid var(--dark); }
 
+        footer { text-align: center; padding: 3rem; font-size: 0.85rem; color: var(--gray); background: #fff; margin-top: 2rem; }
+        
         @media (max-width: 968px) {
             .hero { flex-direction: column; text-align: center; }
             .cta-group { justify-content: center; }
@@ -102,22 +107,22 @@
 <body>
 
     <nav>
-        <div class="logo"><i class="ph-bold ph-layout"></i>eBooking<span>System</span></div>
+        <div class="logo"><i class="ph-fill ph-tomato" style="color: var(--primary);"></i>eBooking<span>System</span></div>
         <ul class="nav-links">
             <li><a href="#">Operations</a></li>
-            <li><a href="#">Security</a></li>
-            <li><a href="#" class="btn-login">Client Login</a></li>
+            <li><a href="#">Team Management</a></li>
+            <li><button class="btn-login">Client Login</button></li>
         </ul>
     </nav>
 
     <main>
         <section class="hero">
             <div class="hero-text">
-                <h1>Harvesting <span>Transparency.</span></h1>
-                <p>A specialized multi-tenant platform for field data collection. Monitor live yields and team productivity across every field in real-time.</p>
+                <h1>Smart Tomato <span>Harvesting.</span></h1>
+                <p>A specialized multi-tenant platform designed for large-scale tomato harvest logistics. Monitor live field yields and team productivity across every field in real-time.</p>
                 <div class="cta-group">
-                    <button class="btn btn-main">Launch Field View</button>
-                    <button class="btn btn-alt">Platform Tour</button>
+                    <button class="btn btn-main">Launch Field Log</button>
+                    <button class="btn btn-alt">System Overview</button>
                 </div>
             </div>
 
@@ -125,7 +130,7 @@
                 <div class="ops-card">
                     <div class="ops-header">
                         <h3>Inventory Overview</h3>
-                        <span class="sync-tag">Encrypted Sync</span>
+                        <span class="sync-tag">Live Feed</span>
                     </div>
                     
                     <div class="main-stat">
@@ -147,8 +152,8 @@
                             <strong>2,350</strong>
                         </div>
                         <div class="field-box" style="border-top-color: var(--accent);">
-                            <span>Pending</span>
-                            <strong>--</strong>
+                            <span>Active Teams</span>
+                            <strong>12</strong>
                         </div>
                     </div>
 
@@ -161,8 +166,9 @@
         </section>
     </main>
 
-    <footer style="text-align: center; padding: 2rem; font-size: 0.85rem; color: var(--gray); background: #fff;">
-        <p>Developed by Kelvin Kadzenje | ASP.NET Core & Supabase Architecture</p>
+    <footer>
+        <p><strong>Kelvin Kadzenje</strong> | Integration Engineer & Full-Stack Developer</p>
+        <p>Advanced Multi-Tenant Architecture for Agricultural Operations</p>
     </footer>
 
 </body>
