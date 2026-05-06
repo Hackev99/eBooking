@@ -37,16 +37,27 @@
         
         .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; }
 
+        /* Background Image Logic for Home */
+        #home {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1592840331052-16e15c2c6f95?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* Page Container Logic */
-        .page { display: none; padding: 4rem 8%; min-height: 85vh; animation: fadeIn 0.4s ease; }
+        .page { display: none; padding: 4rem 8%; min-height: 90vh; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Shared Components */
-        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
-        .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); color: var(--dark); }
 
         /* Operations Styling */
         .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: #ffebee; color: var(--primary); }
@@ -63,8 +74,10 @@
         .btn-submit { width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
         /* Hero visual specific to Home */
-        .hero { display: flex; align-items: center; justify-content: space-between; gap: 3rem; }
-        .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; }
+        .hero { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; }
+        .hero-text h1 { font-size: 4rem; line-height: 1; margin-bottom: 1.5rem; }
+        .hero-text h1 span { color: var(--primary); }
+        .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
         footer { text-align: center; padding: 2rem; background: white; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--gray); }
     </style>
@@ -80,23 +93,27 @@
         </ul>
     </nav>
 
-    <!-- HOME PAGE -->
+    <!-- HOME PAGE WITH BACKGROUND IMAGE -->
     <section id="home" class="page active">
         <div class="hero">
             <div class="hero-text">
-                <h1>Tomato Harvest <span>Redefined.</span></h1>
-                <p>An enterprise-grade multi-tenant platform for secure data collection and harvest logistics. Optimized for Field MoT unit synchronization.</p>
-                <button class="btn-login" style="margin-top: 2rem; padding: 1rem 2rem;" onclick="showPage('operations')">Get Started</button>
+                <h1>Tomato <span>Harvesting</span> Intelligence.</h1>
+                <p style="font-size: 1.2rem; max-width: 600px; opacity: 0.9;">Secure multi-tenant data collection for enterprise tomato farms. Real-time synchronization directly from the field[cite: 3].</p>
+                <button class="btn-login" style="margin-top: 2rem; padding: 1.2rem 2.5rem; font-size: 1.1rem;" onclick="showPage('operations')">Explore Live Operations</button>
             </div>
+            
             <div class="ops-preview">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
-                    <small style="color: var(--primary)">LIVE STREAM</small>
+                    <small style="color: var(--primary); letter-spacing: 2px; font-weight: bold;">LIVE SYSTEM STATUS</small>
                     <i class="ph-bold ph-broadcast" style="color: var(--primary)"></i>
                 </div>
-                <h2 style="font-size: 2.5rem;">5,102</h2>
-                <p style="color: var(--gray); font-size: 0.8rem; margin-bottom: 1.5rem;">TOTAL CRATES TODAY</p>
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
-                    <small>Last Sync: Just Now via Field MoT 04</small>
+                <h2 style="font-size: 3.5rem; margin-bottom: 0;">5,102</h2>
+                <p style="color: var(--gray); font-size: 0.9rem; margin-bottom: 2rem; text-transform: uppercase;">Total Crates Collected Today</p>
+                
+                <div style="background: rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                    <p style="font-size: 0.8rem; color: #ddd;">Last Sync Update:</p>
+                    <p style="font-weight: bold; color: white;">Team Red Rovers</p>
+                    <small style="color: var(--gray);">via Field MoT Unit 04[cite: 3]</small>
                 </div>
             </div>
         </div>
@@ -104,48 +121,40 @@
 
     <!-- OPERATIONS PAGE -->
     <section id="operations" class="page">
-        <h1>Field Operations</h1>
-        <p>Real-time data from active harvest zones.</p>
+        <h1 style="font-size: 2.5rem;">Field Operations</h1>
+        <p style="color: var(--gray);">Real-time monitoring of harvest sites[cite: 3].</p>
         <div class="grid">
             <div class="card">
                 <div style="display:flex; justify-content:space-between;">
                     <h3>Field A-01</h3>
-                    <span class="status-badge">Harvesting</span>
+                    <span class="status-badge">Active</span>
                 </div>
-                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Assigned Team: <strong>Red Rovers</strong></small>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <p style="font-size: 0.85rem; color: var(--gray);">Last Entry by: <strong>Team Red Rovers</strong></p>
             </div>
             <div class="card">
                 <div style="display:flex; justify-content:space-between;">
                     <h3>Field B-04</h3>
-                    <span class="status-badge">Harvesting</span>
+                    <span class="status-badge">Active</span>
                 </div>
-                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">912 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Assigned Team: <strong>Sun Seekers</strong></small>
-            </div>
-            <div class="card">
-                <div style="display:flex; justify-content:space-between;">
-                    <h3>Field C-02</h3>
-                    <span class="status-badge" style="background:#eee; color:#666;">Standby</span>
-                </div>
-                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">0 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Ready for 06:00 AM Start</small>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">912 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <p style="font-size: 0.85rem; color: var(--gray);">Last Entry by: <strong>Team Sun Seekers</strong></p>
             </div>
         </div>
     </section>
 
     <!-- TEAM MANAGEMENT PAGE -->
     <section id="teams" class="page">
-        <h1>Team Management</h1>
-        <div class="card">
-            <h3>Active Field Personnel</h3>
+        <h1 style="font-size: 2.5rem;">Team Management</h1>
+        <div class="card" style="margin-top: 2rem;">
+            <h3>Harvest Personnel</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Team Name</th>
-                        <th>Supervisor</th>
-                        <th>Current Field</th>
-                        <th>Status</th>
+                        <th>Team ID</th>
+                        <th>Lead Supervisor</th>
+                        <th>Active Location</th>
+                        <th>Connectivity</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -153,19 +162,13 @@
                         <td><strong>Red Rovers</strong></td>
                         <td>Kelvin K.</td>
                         <td>Field A-01</td>
-                        <td><span style="color:green;">● Active</span></td>
+                        <td><span style="color:green;">● Synced</span></td>
                     </tr>
                     <tr>
                         <td><strong>Sun Seekers</strong></td>
                         <td>Sarah J.</td>
                         <td>Field B-04</td>
-                        <td><span style="color:green;">● Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Night Owls</strong></td>
-                        <td>Mike L.</td>
-                        <td>N/A</td>
-                        <td><span style="color:gray;">● Off-duty</span></td>
+                        <td><span style="color:green;">● Synced</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -175,44 +178,37 @@
     <!-- CLIENT LOGIN PAGE -->
     <section id="login" class="page">
         <div class="login-container">
-            <i class="ph-fill ph-lock-key" style="font-size: 3rem; color: var(--primary);"></i>
-            <h1 style="margin-top:1rem;">Client Portal</h1>
-            <p>Access your secure company dashboard.</p>
+            <i class="ph-fill ph-shield-check" style="font-size: 3.5rem; color: var(--primary);"></i>
+            <h1 style="margin-top:1rem;">Secure Access</h1>
+            <p style="color: var(--gray);">Multi-company portal for Truter Lutz logistics[cite: 3].</p>
             
-            <div class="card" style="margin-top: 2rem;">
+            <div class="card" style="margin-top: 2.5rem; text-align: left;">
                 <div class="form-group">
-                    <label>Company ID</label>
-                    <input type="text" placeholder="TRUTER-XXXX">
+                    <label style="font-weight: 600; font-size: 0.9rem;">Company Credentials</label>
+                    <input type="text" placeholder="Enter Company ID">
                 </div>
                 <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="admin@company.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
+                    <label style="font-weight: 600; font-size: 0.9rem;">Admin Password</label>
                     <input type="password" placeholder="••••••••">
                 </div>
-                <button class="btn-submit" onclick="alert('System testing: Connection to Supabase successful.')">Secure Login</button>
+                <button class="btn-submit">Authenticate Account</button>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--gray);">Protected by Row-Level Security Architecture[cite: 3]</p>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 eBooking Systems | Multi-Tenant Tomato Logistics | Dev: Kelvin Kadzenje[cite: 3]</p>
+    <footer style="margin-top: 0;">
+        <p><strong>Developed by Kelvin Kadzenje</strong> | Integration Engineer & Full-Stack Developer[cite: 3]</p>
+        <p style="font-size: 0.75rem;">System Architecture: ASP.NET Core & Supabase Row-Level Security[cite: 3]</p>
     </footer>
 
     <script>
         function showPage(pageId) {
-            // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
 
-            // Show selected page
             const selectedPage = document.getElementById(pageId);
             if(selectedPage) {
                 selectedPage.classList.add('active');
-                // Scroll to top
                 window.scrollTo(0, 0);
             }
         }
