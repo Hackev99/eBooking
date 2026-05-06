@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eBooking System | Agricultural Operations</title>
+    <title>eBooking System | Agricultural Logistics</title>
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
@@ -39,7 +39,7 @@
         .hero-text h1 span { color: var(--primary); }
         .hero-text p { font-size: 1.2rem; color: var(--gray); margin-bottom: 2.5rem; max-width: 600px; }
 
-        /* The New Live Operations Card */
+        /* The Operations-Only Card */
         .hero-visual { flex: 0.8; display: flex; justify-content: center; }
         .ops-card {
             background: var(--dark);
@@ -49,40 +49,43 @@
             padding: 2rem;
             box-shadow: 0 30px 60px rgba(0,0,0,0.2);
             position: relative;
-            overflow: hidden;
         }
 
-        .ops-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1.5rem; }
-        .ops-header h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .ops-header { border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .ops-header h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
+        .sync-tag { font-size: 0.7rem; background: rgba(39, 174, 96, 0.2); padding: 2px 8px; border-radius: 10px; color: var(--primary); }
         
-        .main-stat { margin-bottom: 2rem; }
-        .main-stat .value { font-size: 2.8rem; font-weight: 800; display: block; }
-        .main-stat .label { font-size: 0.8rem; color: var(--gray); text-transform: uppercase; }
+        .main-stat { margin-bottom: 2rem; text-align: center; }
+        .main-stat .value { font-size: 3.5rem; font-weight: 800; display: block; color: var(--white); }
+        .main-stat .label { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
 
-        .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        .field-box { background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 12px; border-left: 3px solid var(--primary); }
-        .field-box strong { display: block; font-size: 1.1rem; }
-        .field-box span { font-size: 0.75rem; color: var(--gray); }
+        .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .field-box { background: rgba(255,255,255,0.05); padding: 1.2rem; border-radius: 12px; border-top: 2px solid var(--primary); }
+        .field-box span { font-size: 0.7rem; color: var(--gray); text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .field-box strong { font-size: 1.2rem; display: block; }
 
-        .financial-footer { 
+        .status-footer { 
             margin-top: 2rem; 
-            padding-top: 1rem; 
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            font-size: 0.8rem;
+            color: var(--gray);
         }
 
         .pulse {
-            width: 8px; height: 8px; background: #ff4757; border-radius: 50%;
-            display: inline-block; margin-right: 5px;
-            animation: pulse-red 2s infinite;
+            width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
+            display: inline-block;
+            animation: pulse-green 2s infinite;
         }
 
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
         }
 
         .cta-group { display: flex; gap: 1.2rem; }
@@ -99,10 +102,10 @@
 <body>
 
     <nav>
-        <div class="logo"><i class="ph-bold ph-leaf"></i>eBooking<span>System</span></div>
+        <div class="logo"><i class="ph-bold ph-layout"></i>eBooking<span>System</span></div>
         <ul class="nav-links">
+            <li><a href="#">Operations</a></li>
             <li><a href="#">Security</a></li>
-            <li><a href="#">Solutions</a></li>
             <li><a href="#" class="btn-login">Client Login</a></li>
         </ul>
     </nav>
@@ -110,58 +113,56 @@
     <main>
         <section class="hero">
             <div class="hero-text">
-                <h1>Harvesting <span>Intelligence.</span></h1>
-                <p>Move beyond simple logging. Our system provides real-time operational insights, allowing you to manage multiple farm entities from one secure dashboard.</p>
+                <h1>Harvesting <span>Transparency.</span></h1>
+                <p>A specialized multi-tenant platform for field data collection. Monitor live yields and team productivity across every field in real-time.</p>
                 <div class="cta-group">
-                    <button class="btn btn-main">Get Started</button>
-                    <button class="btn btn-alt">System Features</button>
+                    <button class="btn btn-main">Launch Field View</button>
+                    <button class="btn btn-alt">Platform Tour</button>
                 </div>
             </div>
 
             <div class="hero-visual">
                 <div class="ops-card">
                     <div class="ops-header">
-                        <h3><span class="pulse"></span>Live Operations</h3>
+                        <h3>Inventory Overview</h3>
+                        <span class="sync-tag">Encrypted Sync</span>
                     </div>
                     
                     <div class="main-stat">
-                        <span class="value">4,822</span>
-                        <span class="label">Total Crates Collected (Today)</span>
+                        <span class="value">5,102</span>
+                        <span class="label">Daily Crate Volume</span>
                     </div>
 
                     <div class="field-grid">
                         <div class="field-box">
-                            <span>Field A-12</span>
-                            <strong>1,240 <small>cr</small></strong>
+                            <span>Field A-1</span>
+                            <strong>1,840</strong>
                         </div>
                         <div class="field-box">
-                            <span>Field B-04</span>
-                            <strong>892 <small>cr</small></strong>
-                        </div>
-                        <div class="field-box" style="border-left-color: var(--accent);">
-                            <span>Field C-09</span>
-                            <strong>2,690 <small>cr</small></strong>
+                            <span>Field A-4</span>
+                            <strong>912</strong>
                         </div>
                         <div class="field-box">
-                            <span>Sorting Hub</span>
-                            <strong>Active</strong>
+                            <span>Field B-2</span>
+                            <strong>2,350</strong>
+                        </div>
+                        <div class="field-box" style="border-top-color: var(--accent);">
+                            <span>Pending</span>
+                            <strong>--</strong>
                         </div>
                     </div>
 
-                    <div class="financial-footer">
-                        <div>
-                            <span style="font-size: 0.7rem; color: var(--gray); display: block; text-transform: uppercase;">Est. Daily Spend</span>
-                            <strong style="color: var(--primary); font-size: 1.2rem;">R50,631.00</strong>
-                        </div>
-                        <i class="ph-bold ph-chart-line-up" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <div class="status-footer">
+                        <span class="pulse"></span>
+                        <span>Field MoT Units Reporting: <strong>04 Active</strong></span>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer style="text-align: center; padding: 2rem; font-size: 0.8rem; color: var(--gray);">
-        <p>&copy; 2026 eBooking Agricultural Systems | Secure Multi-Tenant Architecture</p>
+    <footer style="text-align: center; padding: 2rem; font-size: 0.85rem; color: var(--gray); background: #fff;">
+        <p>Developed by Kelvin Kadzenje | ASP.NET Core & Supabase Architecture</p>
     </footer>
 
 </body>
