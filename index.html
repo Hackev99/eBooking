@@ -35,18 +35,19 @@
         .nav-links a { text-decoration: none; color: var(--white); font-weight: 600; cursor: pointer; transition: 0.3s; opacity: 0.9; }
         .nav-links a:hover { color: var(--primary); opacity: 1; }
         
-        .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; }
+        .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; transition: 0.3s; }
+        .btn-login:hover { background: var(--primary-dark); }
 
         /* Page Container Logic */
         .page { display: none; padding: 4rem 8%; min-height: 85vh; animation: fadeIn 0.4s ease; }
         .page.active { display: block; }
 
-        /* Home Page */
+        /* Home Page Hero */
         #home.page.active {
             display: flex;
             align-items: center;
-            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), 
-                        url('Gemini_Generated_Image_4e5v9g4e5v9g4e5v.png'); 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1592840331052-16e15c2c6f95?auto=format&fit=crop&q=80&w=2000');
             background-size: cover;
             background-position: center;
             color: white;
@@ -59,23 +60,39 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
         .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); color: var(--dark); }
 
+        /* About Section */
         .about-content { max-width: 900px; margin: 0 auto; }
         .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
         .feature-item { display: flex; gap: 1rem; align-items: flex-start; }
         .feature-item i { color: var(--primary); font-size: 1.5rem; }
 
+        /* Status Badges */
         .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: #ffebee; color: var(--primary); }
         .status-standby { background: #eeeeee; color: #666; }
 
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th { text-align: left; padding: 1rem; border-bottom: 2px solid var(--border); color: var(--gray); font-size: 0.9rem; }
-        td { padding: 1rem; border-bottom: 1px solid var(--border); }
+        /* Tables */
+        .table-container { overflow-x: auto; margin-top: 1rem; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th { text-align: left; padding: 1.2rem; border-bottom: 2px solid var(--border); color: var(--gray); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        td { padding: 1.2rem; border-bottom: 1px solid var(--border); }
+        tr:hover { background-color: #fafafa; }
 
+        /* Hero UI Components */
         .hero { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; }
+        .hero-text { flex: 1; }
         .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 3rem; background: var(--dark); border-top: 1px solid #333; font-size: 0.85rem; color: #999; }
+        /* Forms */
+        .login-container { max-width: 400px; margin: 2rem auto; text-align: center; }
+        .form-group { text-align: left; margin-bottom: 1.5rem; }
+        input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 8px; outline: none; }
+        input:focus { border-color: var(--primary); }
+        .btn-submit { width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        .btn-submit:hover { background: var(--primary-dark); }
+
+        /* Footer */
+        footer { text-align: center; padding: 4rem 5%; background: var(--dark); border-top: 1px solid #333; color: #999; }
+        .footer-brand { color: var(--white); font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem; display: block; }
     </style>
 </head>
 <body>
@@ -86,31 +103,33 @@
             <li><a onclick="showPage('about')">About System</a></li>
             <li><a onclick="showPage('operations')">Operations</a></li>
             <li><a onclick="showPage('teams')">Supervisors</a></li>
-            <li><button class="btn-login" onclick="showPage('login')">Client Login</button></li>
+            <li><button class="btn-login" onclick="showPage('login')">Portal Login</button></li>
         </ul>
     </nav>
 
     <section id="home" class="page active">
         <div class="hero">
             <div class="hero-text">
-                <h1>eBook <br><span>Field Intelligence.</span></h1>
-                <p style="max-width: 500px; font-size: 1.1rem; opacity: 0.9;">The specialized platform for **Supervisor-driven** harvest data collection. Real-time digital manifest management directly from the field.</p>
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button class="btn-login" style="padding: 1rem 2rem; font-size: 1rem;" onclick="showPage('operations')">Operations View</button>
-                    <button class="btn-login" style="padding: 1rem 2rem; font-size: 1rem; background: transparent; border: 2px solid white;" onclick="showPage('about')">Learn More</button>
+                <h1>eBook <br><span style="color: var(--accent);">Field Intelligence.</span></h1>
+                <p style="max-width: 500px; font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem;">
+                    The specialized platform for <strong>Supervisor-driven</strong> harvest data collection. High-integrity tracking directly from the field.
+                </p>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn-login" style="padding: 1rem 2rem;" onclick="showPage('operations')">Live Operations</button>
+                    <button class="btn-login" style="padding: 1rem 2rem; background: transparent; border: 2px solid white;" onclick="showPage('about')">Learn More</button>
                 </div>
             </div>
             <div class="ops-preview">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
-                    <small style="color: var(--primary); font-weight: bold; letter-spacing: 1px;">LIVE DATA FEED</small>
-                    <i class="ph-bold ph-shield-check" style="color: var(--primary)"></i>
+                    <small style="color: var(--primary); font-weight: bold; letter-spacing: 1px;">EBOOK CORE SYNC</small>
+                    <i class="ph-bold ph-broadcast" style="color: var(--primary)"></i>
                 </div>
-                <h2 style="font-size: 3rem;">5,102</h2>
-                <p style="color: var(--gray); font-size: 0.85rem; margin-bottom: 1.5rem; text-transform: uppercase;">Supervisor-Verified Crates</p>
+                <h2 style="font-size: 3.5rem;">5,102</h2>
+                <p style="color: var(--gray); font-size: 0.85rem; margin-bottom: 1.5rem; text-transform: uppercase;">Verified Crate Count</p>
                 <div style="background: rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary);">
-                    <small style="display: block; color: var(--gray); margin-bottom: 2px;">Latest System Sync:</small>
-                    <strong style="display: block; font-size: 1rem;">Supervisor Kelvin K.</strong>
-                    <small style="color: var(--gray);">Zone: Field A-01</small>
+                    <small style="display: block; color: var(--gray); margin-bottom: 2px;">Latest Verified Entry:</small>
+                    <strong style="display: block; font-size: 1.1rem;">Supervisor Kelvin K.</strong>
+                    <small style="color: var(--gray);">Zone A-01 | Secure Connection</small>
                 </div>
             </div>
         </div>
@@ -118,8 +137,10 @@
 
     <section id="about" class="page">
         <div class="about-content">
-            <h1>The eBook Methodology</h1>
-            <p style="font-size: 1.2rem; color: var(--gray);">eBook is engineered on the principle that field-level data must be verified at the source. Our system places the collection authority in the hands of **Supervisors**, ensuring high-integrity reporting from every harvest zone.</p>
+            <h1 style="color: var(--primary);">The eBook Methodology</h1>
+            <p style="font-size: 1.2rem; color: var(--gray); margin-bottom: 3rem;">
+                eBook is engineered on the principle that field-level data must be verified at the source. Our system places the collection authority in the hands of **Supervisors**, ensuring high-integrity reporting from every harvest zone.
+            </p>
             
             <div class="feature-list">
                 <div class="feature-item">
@@ -130,7 +151,7 @@
                     </div>
                 </div>
                 <div class="feature-item">
-                    <i class="ph-bold ph-database"></i>
+                    <i class="ph-bold ph-shield-check"></i>
                     <div>
                         <h3>Data Integrity</h3>
                         <p>Every entry within eBook is cryptographically signed by the assigned Supervisor's credentials for audit-ready reporting.</p>
@@ -140,7 +161,7 @@
                     <i class="ph-bold ph-lock-key"></i>
                     <div>
                         <h3>Multi-Tenant Vaults</h3>
-                        <p>Enterprise-grade security keeps separate farm data completely isolated through advanced Row Level Security.</p>
+                        <p>Enterprise-grade security keeps separate farm data completely isolated through advanced Row Level Security (RLS).</p>
                     </div>
                 </div>
                 <div class="feature-item">
@@ -154,16 +175,107 @@
         </div>
     </section>
 
+    <section id="operations" class="page">
+        <h1>Field Operations</h1>
+        <p style="color: var(--gray); margin-bottom: 2rem;">Real-time harvest data verified by Zone Supervisors.</p>
+        <div class="grid">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Zone A-01</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Lead: <strong>Supervisor Kelvin K.</strong></small>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Zone B-04</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">912 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Lead: <strong>Supervisor Sarah J.</strong></small>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Zone C-02</h3><span class="status-badge status-standby">Standby</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">0 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Lead: <strong>Supervisor Mike L.</strong></small>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Zone D-09</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">655 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Lead: <strong>Supervisor David O.</strong></small>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Zone F-03</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">1,204 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Lead: <strong>Supervisor Linda M.</strong></small>
+            </div>
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Zone G-07</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">430 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Lead: <strong>Supervisor James P.</strong></small>
+            </div>
+        </div>
+    </section>
+
+    <section id="teams" class="page">
+        <h1>Supervisor Directory</h1>
+        <div class="card">
+            <h3>Active eBook Data Collectors</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Supervisor</th>
+                            <th>eBook ID</th>
+                            <th>Assigned Zone</th>
+                            <th>Total Collected</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Kelvin K.</strong></td><td>EB-901</td><td>Zone A-01</td><td>1,840 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>Sarah J.</strong></td><td>EB-112</td><td>Zone B-04</td><td>912 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>Mike L.</strong></td><td>EB-005</td><td>Zone C-02</td><td>0 Crates</td><td><span style="color:gray;">● Ready</span></td></tr>
+                        <tr><td><strong>David O.</strong></td><td>EB-442</td><td>Zone D-09</td><td>655 Crates</td><td><span style="color:orange;">● Syncing</span></td></tr>
+                        <tr><td><strong>Linda M.</strong></td><td>EB-331</td><td>Zone F-03</td><td>1,204 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>James P.</strong></td><td>EB-012</td><td>Zone G-07</td><td>430 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>Robert S.</strong></td><td>EB-772</td><td>Zone H-11</td><td>890 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="login" class="page">
+        <div class="login-container">
+            <i class="ph-fill ph-fingerprint" style="font-size: 4rem; color: var(--primary);"></i>
+            <h1 style="margin-top:1rem;">Supervisor Access</h1>
+            <p style="color: var(--gray);">Secure login to the eBook Field Portal.</p>
+            <div class="card" style="margin-top: 2rem;">
+                <div class="form-group">
+                    <label>Supervisor ID</label>
+                    <input type="text" placeholder="EB-XXX-XXX">
+                </div>
+                <div class="form-group">
+                    <label>Access Code</label>
+                    <input type="password" placeholder="••••">
+                </div>
+                <button class="btn-submit" onclick="alert('eBook Secure Link Established. Redirecting...')">Login</button>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <p style="color: var(--white); font-weight: bold; margin-bottom: 0.5rem;">eBook | Advanced Field Logistics</p>
-        <p>&copy; 2026 eBook Systems | Multi-Tenant Tomato Logistics | Dev: Kelvin Kadzenje</p>
+        <span class="footer-brand">eBook</span>
+        <p>Enterprise Field Logistics & Data Collection</p>
+        <p style="margin: 1rem 0;">&copy; 2026 eBook Systems | Developed by Kelvin Kadzenje</p>
+        <div style="opacity: 0.5; font-size: 0.75rem;">
+            Data Integrity Node: EB-MASTER-77 // Secure Connection Active
+        </div>
     </footer>
 
     <script>
         function showPage(pageId) {
+            // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
 
+            // Show selected page
             const selectedPage = document.getElementById(pageId);
             if(selectedPage) {
                 selectedPage.classList.add('active');
