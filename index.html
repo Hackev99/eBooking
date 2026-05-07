@@ -22,18 +22,18 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: var(--light); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
 
-        /* Navigation */
+        /* Navigation - Dark Theme */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1rem 5%; background: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;
+            padding: 1rem 5%; background: var(--dark);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
         }
 
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 800; color: var(--primary); cursor: pointer; }
         
         .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links a { text-decoration: none; color: var(--white); font-weight: 600; cursor: pointer; transition: 0.3s; opacity: 0.9; }
+        .nav-links a:hover { color: var(--primary); opacity: 1; }
         
         .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; }
 
@@ -56,13 +56,21 @@
 
         /* Shared Components */
         h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
         .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); color: var(--dark); }
+
+        /* About Section Styling */
+        .about-content { max-width: 900px; margin: 0 auto; }
+        .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .feature-item { display: flex; gap: 1rem; align-items: flex-start; }
+        .feature-item i { color: var(--primary); font-size: 1.5rem; }
 
         /* Operations Styling */
         .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: #ffebee; color: var(--primary); }
+        .status-standby { background: #eeeeee; color: #666; }
 
         /* Team Management Styling */
+        .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th { text-align: left; padding: 1rem; border-bottom: 2px solid var(--border); color: var(--gray); font-size: 0.9rem; }
         td { padding: 1rem; border-bottom: 1px solid var(--border); }
@@ -77,7 +85,8 @@
         .hero { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; }
         .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
-        footer { text-align: center; padding: 2rem; background: white; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--gray); }
+        /* Footer - Dark Theme */
+        footer { text-align: center; padding: 3rem; background: var(--dark); border-top: 1px solid #333; font-size: 0.85rem; color: #999; }
     </style>
 </head>
 <body>
@@ -85,6 +94,7 @@
     <nav>
         <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-tomato"></i>eBooking</div>
         <ul class="nav-links">
+            <li><a onclick="showPage('about')">About System</a></li>
             <li><a onclick="showPage('operations')">Operations</a></li>
             <li><a onclick="showPage('teams')">Team Management</a></li>
             <li><button class="btn-login" onclick="showPage('login')">Client Login</button></li>
@@ -97,7 +107,10 @@
             <div class="hero-text">
                 <h1>Tomato Harvest <br><span>Redefined.</span></h1>
                 <p style="max-width: 500px; font-size: 1.1rem; opacity: 0.9;">An enterprise-grade multi-tenant platform for secure data collection and harvest logistics. Optimized for Field MoT unit synchronization.</p>
-                <button class="btn-login" style="margin-top: 2rem; padding: 1rem 2rem; font-size: 1rem;" onclick="showPage('operations')">Get Started</button>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn-login" style="padding: 1rem 2rem; font-size: 1rem;" onclick="showPage('operations')">Get Started</button>
+                    <button class="btn-login" style="padding: 1rem 2rem; font-size: 1rem; background: transparent; border: 2px solid white;" onclick="showPage('about')">Learn More</button>
+                </div>
             </div>
             <div class="ops-preview">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
@@ -115,34 +128,114 @@
         </div>
     </section>
 
+    <!-- ABOUT SYSTEM PAGE -->
+    <section id="about" class="page">
+        <div class="about-content">
+            <h1>About eBooking System</h1>
+            <p style="font-size: 1.2rem; color: var(--gray);">eBooking is a specialized logistics and data management framework designed specifically for high-volume agricultural harvesting. By bridging the gap between field personnel and back-office management, we ensure zero data loss and maximum efficiency.</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <i class="ph-bold ph-shield-check"></i>
+                    <div>
+                        <h3>Multi-Tenant Security</h3>
+                        <p>Built with enterprise-grade Row Level Security (RLS) to ensure harvest data remains private between different farming corporations.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="ph-bold ph-truck"></i>
+                    <div>
+                        <h3>MoT Integration</h3>
+                        <p>Native support for Mode of Transport (MoT) field units, allowing drivers to sync collection data even in low-connectivity zones.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="ph-bold ph-chart-line-up"></i>
+                    <div>
+                        <h3>Real-time Analytics</h3>
+                        <p>Monitor crate counts, team performance, and field yields as they happen with our live-stream data engine.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="ph-bold ph-users-four"></i>
+                    <div>
+                        <h3>Fleet Coordination</h3>
+                        <p>Manage hundreds of personnel across multiple geographic fields with centralized supervisor controls.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 4rem; background: var(--dark); color: white; border: none;">
+                <h3>System Architecture</h3>
+                <p style="opacity: 0.8; margin-top: 0.5rem;">The platform utilizes a modern Full-Stack ecosystem including React-based SPA architecture, secure API Gateways, and a high-availability cloud database to handle peak harvest seasons.</p>
+            </div>
+        </div>
+    </section>
+
     <!-- OPERATIONS PAGE -->
     <section id="operations" class="page">
         <h1>Field Operations</h1>
-        <p>Real-time data from active harvest zones.</p>
+        <p>Real-time monitoring of all 10 active harvest zones.</p>
         <div class="grid">
+            <!-- Field 1 -->
             <div class="card">
-                <div style="display:flex; justify-content:space-between;">
-                    <h3>Field A-01</h3>
-                    <span class="status-badge">Harvesting</span>
-                </div>
+                <div style="display:flex; justify-content:space-between;"><h3>Field A-01</h3><span class="status-badge">Active</span></div>
                 <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Assigned Team: <strong>Red Rovers</strong></small>
+                <small>Team: <strong>Red Rovers</strong></small>
             </div>
+            <!-- Field 2 -->
             <div class="card">
-                <div style="display:flex; justify-content:space-between;">
-                    <h3>Field B-04</h3>
-                    <span class="status-badge">Harvesting</span>
-                </div>
+                <div style="display:flex; justify-content:space-between;"><h3>Field B-04</h3><span class="status-badge">Active</span></div>
                 <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">912 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Assigned Team: <strong>Sun Seekers</strong></small>
+                <small>Team: <strong>Sun Seekers</strong></small>
             </div>
+            <!-- Field 3 -->
             <div class="card">
-                <div style="display:flex; justify-content:space-between;">
-                    <h3>Field C-02</h3>
-                    <span class="status-badge" style="background:#eee; color:#666;">Standby</span>
-                </div>
+                <div style="display:flex; justify-content:space-between;"><h3>Field C-02</h3><span class="status-badge status-standby">Standby</span></div>
                 <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">0 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Ready for 06:00 AM Start</small>
+                <small>Next: <strong>Night Owls</strong></small>
+            </div>
+            <!-- Field 4 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field D-09</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">655 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Team: <strong>Green Giants</strong></small>
+            </div>
+            <!-- Field 5 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field E-12</h3><span class="status-badge status-standby">Standby</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">0 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Maintenance Mode</small>
+            </div>
+            <!-- Field 6 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field F-03</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">1,204 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Team: <strong>Alpha Crew</strong></small>
+            </div>
+            <!-- Field 7 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field G-07</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">430 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Team: <strong>Eco Pickers</strong></small>
+            </div>
+            <!-- Field 8 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field H-11</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">890 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Team: <strong>Terra Force</strong></small>
+            </div>
+            <!-- Field 9 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field I-05</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">150 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Team: <strong>Beta Unit</strong></small>
+            </div>
+            <!-- Field 10 -->
+            <div class="card">
+                <div style="display:flex; justify-content:space-between;"><h3>Field J-08</h3><span class="status-badge status-standby">Standby</span></div>
+                <p style="font-size: 2rem; font-weight: 800; margin: 1rem 0;">0 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <small>Quality Control Pending</small>
             </div>
         </div>
     </section>
@@ -151,37 +244,32 @@
     <section id="teams" class="page">
         <h1>Team Management</h1>
         <div class="card">
-            <h3>Active Field Personnel</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Team Name</th>
-                        <th>Supervisor</th>
-                        <th>Current Field</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Red Rovers</strong></td>
-                        <td>Kelvin K.</td>
-                        <td>Field A-01</td>
-                        <td><span style="color:green;">● Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sun Seekers</strong></td>
-                        <td>Sarah J.</td>
-                        <td>Field B-04</td>
-                        <td><span style="color:green;">● Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Night Owls</strong></td>
-                        <td>Mike L.</td>
-                        <td>N/A</td>
-                        <td><span style="color:gray;">● Off-duty</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <h3>Fleet Directory</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Team Name</th>
+                            <th>Supervisor</th>
+                            <th>Current Field</th>
+                            <th>Personnel Count</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Red Rovers</strong></td><td>Kelvin K.</td><td>Field A-01</td><td>12</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Sun Seekers</strong></td><td>Sarah J.</td><td>Field B-04</td><td>10</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Night Owls</strong></td><td>Mike L.</td><td>N/A</td><td>8</td><td><span style="color:gray;">● Off-duty</span></td></tr>
+                        <tr><td><strong>Green Giants</strong></td><td>David O.</td><td>Field D-09</td><td>15</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Alpha Crew</strong></td><td>Linda M.</td><td>Field F-03</td><td>14</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Eco Pickers</strong></td><td>James P.</td><td>Field G-07</td><td>9</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Terra Force</strong></td><td>Robert S.</td><td>Field H-11</td><td>11</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Beta Unit</strong></td><td>Emily W.</td><td>Field I-05</td><td>7</td><td><span style="color:green;">● Active</span></td></tr>
+                        <tr><td><strong>Harvest Kings</strong></td><td>Tom H.</td><td>N/A</td><td>12</td><td><span style="color:gray;">● Standby</span></td></tr>
+                        <tr><td><strong>Sky Watchers</strong></td><td>Anna B.</td><td>N/A</td><td>6</td><td><span style="color:red;">● Maintenance</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
@@ -191,28 +279,19 @@
             <i class="ph-fill ph-lock-key" style="font-size: 3rem; color: var(--primary);"></i>
             <h1 style="margin-top:1rem;">Client Portal</h1>
             <p>Access your secure company dashboard.</p>
-            
             <div class="card" style="margin-top: 2rem;">
-                <div class="form-group">
-                    <label>Company ID</label>
-                    <input type="text" placeholder="TRUTER-XXXX">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" placeholder="admin@company.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="••••••••">
-                </div>
+                <div class="form-group"><label>Company ID</label><input type="text" placeholder="TRUTER-XXXX"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" placeholder="admin@company.com"></div>
+                <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
                 <button class="btn-submit" onclick="alert('System testing: Connection to Supabase successful.')">Secure Login</button>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--gray);">Protected by Row-Level Security Architecture</p>
         </div>
     </section>
 
     <footer>
+        <p style="color: var(--white); font-weight: bold; margin-bottom: 0.5rem;">eBooking Agricultural Logistics</p>
         <p>&copy; 2026 eBooking Systems | Multi-Tenant Tomato Logistics | Dev: Kelvin Kadzenje</p>
+        <p style="margin-top: 1rem; opacity: 0.5;">Secure Field Unit Node: 204.1.88.10</p>
     </footer>
 
     <script>
