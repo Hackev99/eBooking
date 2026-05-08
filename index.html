@@ -38,9 +38,21 @@
         .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; transition: 0.3s; }
         .btn-login:hover { background: var(--primary-dark); }
 
-        /* Page Container Logic */
-        .page { display: none; padding: 4rem 8%; min-height: 85vh; animation: fadeIn 0.4s ease; }
-        .page.active { display: block; }
+        /* Page Container Logic - BOOK FLIP EFFECT */
+        .page { 
+            display: none; 
+            padding: 4rem 8%; 
+            min-height: 85vh; 
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page.active { 
+            display: block; 
+            opacity: 1;
+            transform: translateX(0);
+        }
 
         /* Home Page Hero */
         #home.page.active {
@@ -52,8 +64,6 @@
             background-position: center;
             color: white;
         }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Shared Components */
         h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
@@ -272,13 +282,42 @@
     <script>
         function showPage(pageId) {
             const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
 
-            const selectedPage = document.getElementById(pageId);
-            if(selectedPage) {
-                selectedPage.classList.add('active');
+            if (targetPage.classList.contains('active')) return;
+
+            // Start "closing" the current page
+            pages.forEach(page => {
+                if (page.classList.contains('active')) {
+                    page.style.opacity = '0';
+                    page.style.transform = 'translateX(-50px)';
+                    
+                    // Wait for fade out before switching display
+                    setTimeout(() => {
+                        page.classList.remove('active');
+                        page.style.display = 'none';
+                        
+                        // "Open" the new page
+                        openNewPage(targetPage);
+                    }, 400); 
+                }
+            });
+        }
+
+        function openNewPage(targetPage) {
+            targetPage.style.display = 'block';
+            targetPage.style.opacity = '0';
+            targetPage.style.transform = 'translateX(50px)';
+
+            // Trigger reflow
+            targetPage.offsetHeight;
+
+            setTimeout(() => {
+                targetPage.classList.add('active');
+                targetPage.style.opacity = '1';
+                targetPage.style.transform = 'translateX(0)';
                 window.scrollTo(0, 0);
-            }
+            }, 50);
         }
     </script>
 
