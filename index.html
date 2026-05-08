@@ -12,6 +12,7 @@
             --primary: #d32f2f;
             --primary-dark: #b71c1c;
             --accent: #ffb300;
+            --success: #2e7d32;
             --dark: #1a1a1a;
             --light: #fdfaf9;
             --white: #ffffff;
@@ -32,13 +33,23 @@
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 800; color: var(--primary); cursor: pointer; }
         
         .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--white); font-weight: 600; cursor: pointer; transition: 0.3s; opacity: 0.9; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--white); 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            opacity: 0.9; 
+            display: flex; 
+            align-items: center; 
+        }
         .nav-links a:hover { color: var(--primary); opacity: 1; }
         
+        .nav-home-icon { font-size: 1.4rem; }
+
         .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; transition: 0.3s; }
         .btn-login:hover { background: var(--primary-dark); }
 
-        /* Page Container Logic - BOOK FLIP EFFECT */
         .page { 
             display: none; 
             padding: 4rem 8%; 
@@ -54,7 +65,6 @@
             transform: translateX(0);
         }
 
-        /* Home Page Hero */
         #home.page.active {
             display: flex;
             align-items: center;
@@ -65,34 +75,24 @@
             color: white;
         }
 
-        /* Shared Components */
         h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
         .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); color: var(--dark); }
 
-        /* About Section */
-        .about-content { max-width: 900px; margin: 0 auto; }
-        .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-        .feature-item { display: flex; gap: 1rem; align-items: flex-start; }
-        .feature-item i { color: var(--primary); font-size: 1.5rem; }
-
-        /* Status Badges */
+        .money { color: var(--success); font-family: 'Courier New', monospace; font-weight: bold; }
         .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: #ffebee; color: var(--primary); }
         .status-standby { background: #eeeeee; color: #666; }
 
-        /* Tables */
         .table-container { overflow-x: auto; margin-top: 1rem; }
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
         th { text-align: left; padding: 1.2rem; border-bottom: 2px solid var(--border); color: var(--gray); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         td { padding: 1.2rem; border-bottom: 1px solid var(--border); }
         tr:hover { background-color: #fafafa; }
 
-        /* Hero UI Components */
         .hero { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; }
         .hero-text { flex: 1; }
-        .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #333; }
 
-        /* Graph Styling */
         .hero-graph-container { 
             margin-top: 2.5rem; 
             background: rgba(255,255,255,0.05); 
@@ -103,15 +103,12 @@
             max-width: 500px;
         }
 
-        /* Forms */
         .login-container { max-width: 400px; margin: 2rem auto; text-align: center; }
         .form-group { text-align: left; margin-bottom: 1.5rem; }
         input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 8px; outline: none; }
         input:focus { border-color: var(--primary); }
         .btn-submit { width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
-        .btn-submit:hover { background: var(--primary-dark); }
 
-        /* Footer */
         footer { text-align: center; padding: 4rem 5%; background: var(--dark); border-top: 1px solid #333; color: #999; }
         .footer-brand { color: var(--white); font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem; display: block; }
     </style>
@@ -119,8 +116,16 @@
 <body>
 
     <nav>
-        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-book-open"></i>eBook</div>
+        <div class="logo" onclick="showPage('home')">
+            <i class="ph-fill ph-book-open"></i>eBook
+        </div>
         <ul class="nav-links">
+            <li>
+                <a onclick="showPage('home')" title="Home" class="nav-home-icon">
+                    <i class="ph-bold ph-house"></i>
+                </a>
+            </li>
+            <li><a onclick="showPage('operations')">Financials</a></li>
             <li><a onclick="showPage('teams')">Supervisors</a></li>
             <li><button class="btn-login" onclick="showPage('login')">Portal Login</button></li>
         </ul>
@@ -129,127 +134,79 @@
     <section id="home" class="page active">
         <div class="hero">
             <div class="hero-text">
-                <h1>eBook <br><span style="color: var(--accent);">Field Intelligence.</span></h1>
+                <h1>Financial <br><span style="color: var(--accent);">Transparency.</span></h1>
                 <p style="max-width: 500px; font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem;">
-                    The specialized platform for <strong>Supervisor-driven</strong> harvest data collection. High-integrity tracking directly from the field.
+                    The specialized platform for <strong>Supervisor-driven</strong> harvest data. Variety-specific crate tracking for RED and Durburn.
                 </p>
                 <div style="display: flex; gap: 1rem; margin-bottom: 2.5rem;">
-                    <button class="btn-login" style="padding: 1rem 2rem;" onclick="showPage('operations')">Live Operations</button>
-                    <button class="btn-login" style="padding: 1rem 2rem; background: transparent; border: 2px solid white;" onclick="showPage('about')">Learn More</button>
+                    <button class="btn-login" style="padding: 1rem 2rem;" onclick="showPage('operations')">View Financials</button>
+                    <button class="btn-login" style="padding: 1rem 2rem; background: transparent; border: 2px solid white;" onclick="showPage('about')">The Methodology</button>
                 </div>
 
                 <div class="hero-graph-container">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <span style="font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; color: var(--accent);">HOURLY YIELD TREND</span>
-                        <span style="font-size: 0.65rem; color: #bbb;">LIVE NETWORK STATUS</span>
+                        <span style="font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; color: var(--accent);">MARKET YIELD VALUATION</span>
+                        <span style="font-size: 0.65rem; color: #bbb;">LIVE LEDGER</span>
                     </div>
                     <div style="display: flex; align-items: flex-end; gap: 8px; height: 80px;">
-                        <div style="height: 35%; width: 100%; background: var(--primary); opacity: 0.4; border-radius: 3px;"></div>
-                        <div style="height: 55%; width: 100%; background: var(--primary); opacity: 0.5; border-radius: 3px;"></div>
-                        <div style="height: 80%; width: 100%; background: var(--primary); opacity: 0.7; border-radius: 3px;"></div>
-                        <div style="height: 45%; width: 100%; background: var(--primary); opacity: 0.5; border-radius: 3px;"></div>
-                        <div style="height: 95%; width: 100%; background: var(--accent); border-radius: 3px; box-shadow: 0 0 15px var(--accent);"></div>
-                        <div style="height: 65%; width: 100%; background: var(--primary); opacity: 0.8; border-radius: 3px;"></div>
-                        <div style="height: 40%; width: 100%; background: var(--primary); opacity: 0.4; border-radius: 3px;"></div>
+                        <div style="height: 45%; width: 100%; background: var(--success); opacity: 0.4; border-radius: 3px;"></div>
+                        <div style="height: 65%; width: 100%; background: var(--success); opacity: 0.5; border-radius: 3px;"></div>
+                        <div style="height: 85%; width: 100%; background: var(--success); opacity: 0.7; border-radius: 3px;"></div>
+                        <div style="height: 55%; width: 100%; background: var(--success); opacity: 0.5; border-radius: 3px;"></div>
+                        <div style="height: 100%; width: 100%; background: var(--accent); border-radius: 3px; box-shadow: 0 0 15px var(--accent);"></div>
+                        <div style="height: 75%; width: 100%; background: var(--success); opacity: 0.8; border-radius: 3px;"></div>
+                        <div style="height: 50%; width: 100%; background: var(--success); opacity: 0.4; border-radius: 3px;"></div>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-top: 0.6rem; font-size: 0.6rem; color: #999; text-transform: uppercase;">
-                        <span>06:00</span>
-                        <span>10:00</span>
-                        <span>14:00 (Peak)</span>
-                        <span>18:00</span>
+                        <span>RED (Rate: 8)</span>
+                        <span>Durburn (Rate: 10)</span>
                     </div>
                 </div>
             </div>
 
             <div class="ops-preview">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
-                    <small style="color: var(--primary); font-weight: bold; letter-spacing: 1px;">EBOOK CORE SYNC</small>
-                    <i class="ph-bold ph-broadcast" style="color: var(--primary)"></i>
+                    <small style="color: var(--primary); font-weight: bold; letter-spacing: 1px;">EBOOK TOTAL VALUATION</small>
+                    <i class="ph-bold ph-trend-up" style="color: var(--accent)"></i>
                 </div>
-                <h2 style="font-size: 3.5rem;">5,102</h2>
-                <p style="color: var(--gray); font-size: 0.85rem; margin-bottom: 1.5rem; text-transform: uppercase;">Verified Crate Count</p>
-                <div style="background: rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary);">
-                    <small style="display: block; color: var(--gray); margin-bottom: 2px;">Latest Verified Entry:</small>
-                    <strong style="display: block; font-size: 1.1rem;">Supervisor EB-901</strong>
-                    <small style="color: var(--gray);">Zone A-01 | Secure Connection</small>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="page">
-        <div class="about-content">
-            <h1 style="color: var(--primary);">The eBook Methodology</h1>
-            <p style="font-size: 1.2rem; color: var(--gray); margin-bottom: 3rem;">
-                eBook is engineered on the principle that field-level data must be verified at the source. Our system places the collection authority in the hands of **Supervisors**, ensuring high-integrity reporting from every harvest zone.
-            </p>
-            
-            <div class="feature-list">
-                <div class="feature-item">
-                    <i class="ph-bold ph-user-check"></i>
-                    <div>
-                        <h3>Supervisor Collection</h3>
-                        <p>Human-led data entry ensures that crate quality and counts are verified before they ever leave the harvest zone.</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="ph-bold ph-shield-check"></i>
-                    <div>
-                        <h3>Data Integrity</h3>
-                        <p>Every entry within eBook is cryptographically signed by the assigned Supervisor's credentials for audit-ready reporting.</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="ph-bold ph-lock-key"></i>
-                    <div>
-                        <h3>Multi-Tenant Vaults</h3>
-                        <p>Enterprise-grade security keeps separate farm data completely isolated through advanced Row Level Security (RLS).</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <i class="ph-bold ph-chart-line-up"></i>
-                    <div>
-                        <h3>Real-time Tracking</h3>
-                        <p>Instantly monitor seasonal yields and daily performance targets as supervisors log their field progress.</p>
-                    </div>
+                <h2 style="font-size: 2.4rem;" class="money">R 45,980</h2>
+                <p style="color: var(--gray); font-size: 0.85rem; margin-bottom: 1.5rem; text-transform: uppercase;">Weighted Aggregate</p>
+                <div style="background: rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; border-left: 4px solid var(--accent);">
+                    <small style="display: block; color: var(--gray); margin-bottom: 2px;">Crate Count (Verified):</small>
+                    <strong style="display: block; font-size: 1.1rem;">5,102 Units</strong>
+                    <small style="color: var(--gray);">Node: EB-MASTER-77</small>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="operations" class="page">
-        <h1>Field Operations</h1>
-        <p style="color: var(--gray); margin-bottom: 2rem;">Real-time harvest data verified by Zone Supervisors.</p>
+        <h1>Financial Operations</h1>
+        <p style="color: var(--gray); margin-bottom: 2rem;">Real-time yield valuation: RED @ 8 | Durburn @ 10.</p>
         <div class="grid">
             <div class="card">
-                <div style="display:flex; justify-content:space-between;"><h3>Zone A-01</h3><span class="status-badge">Active</span></div>
+                <div style="display:flex; justify-content:space-between;"><h3>Zone A-01 (RED)</h3><span class="status-badge">Active</span></div>
                 <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Lead: <strong>Supervisor EB-901</strong></small>
+                <div class="money" style="font-size: 1.2rem; margin-bottom: 10px;">R 14,720.00</div>
+                <small>Rate: <strong>8.00</strong></small>
             </div>
             <div class="card">
-                <div style="display:flex; justify-content:space-between;"><h3>Zone B-04</h3><span class="status-badge">Active</span></div>
+                <div style="display:flex; justify-content:space-between;"><h3>Zone B-04 (RED)</h3><span class="status-badge">Active</span></div>
                 <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">912 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Lead: <strong>Supervisor EB-112</strong></small>
+                <div class="money" style="font-size: 1.2rem; margin-bottom: 10px;">R 7,296.00</div>
+                <small>Rate: <strong>8.00</strong></small>
             </div>
             <div class="card">
-                <div style="display:flex; justify-content:space-between;"><h3>Zone C-02</h3><span class="status-badge status-standby">Standby</span></div>
-                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">0 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Lead: <strong>Supervisor EB-005</strong></small>
-            </div>
-            <div class="card">
-                <div style="display:flex; justify-content:space-between;"><h3>Zone D-09</h3><span class="status-badge">Active</span></div>
-                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">655 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Lead: <strong>Supervisor EB-442</strong></small>
-            </div>
-            <div class="card">
-                <div style="display:flex; justify-content:space-between;"><h3>Zone F-03</h3><span class="status-badge">Active</span></div>
+                <div style="display:flex; justify-content:space-between;"><h3>Zone F-03 (Durburn)</h3><span class="status-badge">Active</span></div>
                 <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">1,204 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Lead: <strong>Supervisor EB-331</strong></small>
+                <div class="money" style="font-size: 1.2rem; margin-bottom: 10px;">R 12,040.00</div>
+                <small>Rate: <strong>10.00</strong></small>
             </div>
             <div class="card">
-                <div style="display:flex; justify-content:space-between;"><h3>Zone G-07</h3><span class="status-badge">Active</span></div>
-                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">430 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                <small>Lead: <strong>Supervisor EB-012</strong></small>
+                <div style="display:flex; justify-content:space-between;"><h3>Zone H-11 (Durburn)</h3><span class="status-badge">Active</span></div>
+                <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">890 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
+                <div class="money" style="font-size: 1.2rem; margin-bottom: 10px;">R 8,900.00</div>
+                <small>Rate: <strong>10.00</strong></small>
             </div>
         </div>
     </section>
@@ -257,25 +214,25 @@
     <section id="teams" class="page">
         <h1>Supervisor Directory</h1>
         <div class="card">
-            <h3>Active eBook Data Collectors</h3>
+            <h3>Variety-Based Collection Ledger</h3>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Supervisor ID</th>
-                            <th>Assigned Zone</th>
+                            <th>Variety</th>
                             <th>Total Collected</th>
-                            <th>Status</th>
+                            <th>Calculation Rate</th>
+                            <th>Total Value (ZAR)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td><strong>EB-901</strong></td><td>Zone A-01</td><td>1,840 Crates</td><td><span style="color:green;">● Online</span></td></tr>
-                        <tr><td><strong>EB-112</strong></td><td>Zone B-04</td><td>912 Crates</td><td><span style="color:green;">● Online</span></td></tr>
-                        <tr><td><strong>EB-005</strong></td><td>Zone C-02</td><td>0 Crates</td><td><span style="color:gray;">● Ready</span></td></tr>
-                        <tr><td><strong>EB-442</strong></td><td>Zone D-09</td><td>655 Crates</td><td><span style="color:orange;">● Syncing</span></td></tr>
-                        <tr><td><strong>EB-331</strong></td><td>Zone F-03</td><td>1,204 Crates</td><td><span style="color:green;">● Online</span></td></tr>
-                        <tr><td><strong>EB-012</strong></td><td>Zone G-07</td><td>430 Crates</td><td><span style="color:green;">● Online</span></td></tr>
-                        <tr><td><strong>EB-772</strong></td><td>Zone H-11</td><td>890 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>EB-901</strong></td><td>RED</td><td>1,840 Crates</td><td>8.00</td><td class="money">R 14,720</td></tr>
+                        <tr><td><strong>EB-112</strong></td><td>RED</td><td>912 Crates</td><td>8.00</td><td class="money">R 7,296</td></tr>
+                        <tr><td><strong>EB-331</strong></td><td>Durburn</td><td>1,204 Crates</td><td>10.00</td><td class="money">R 12,040</td></tr>
+                        <tr><td><strong>EB-772</strong></td><td>Durburn</td><td>890 Crates</td><td>10.00</td><td class="money">R 8,900</td></tr>
+                        <tr><td><strong>EB-442</strong></td><td>RED</td><td>655 Crates</td><td>8.00</td><td class="money">R 5,240</td></tr>
+                        <tr><td><strong>EB-012</strong></td><td>Durburn</td><td>430 Crates</td><td>10.00</td><td class="money">R 4,300</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -286,7 +243,6 @@
         <div class="login-container">
             <i class="ph-fill ph-fingerprint" style="font-size: 4rem; color: var(--primary);"></i>
             <h1 style="margin-top:1rem;">Supervisor Access</h1>
-            <p style="color: var(--gray);">Secure login to the eBook Field Portal.</p>
             <div class="card" style="margin-top: 2rem;">
                 <div class="form-group">
                     <label>Supervisor ID</label>
@@ -301,12 +257,31 @@
         </div>
     </section>
 
+    <section id="about" class="page">
+        <div class="about-content">
+            <h1 style="color: var(--primary);">Variety Standards</h1>
+            <p style="font-size: 1.2rem; color: var(--gray); margin-bottom: 3rem;">
+                eBook maintains distinct financial nodes for different produce varieties to ensure accurate payroll and market valuation.
+            </p>
+            <div class="grid">
+                <div class="card">
+                    <h3>RED Variety</h3>
+                    <p>Calculated at <strong>8 per crate</strong>. Focused on high-volume yield tracking.</p>
+                </div>
+                <div class="card">
+                    <h3>Durburn Variety</h3>
+                    <p>Calculated at <strong>10 per crate</strong>. Specialized premium collection tracking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <span class="footer-brand">eBook</span>
-        <p>Enterprise Field Logistics & Data Collection</p>
+        <span class="footer-brand">eBook Finance</span>
+        <p>Variety-Specific Financial Data Collection</p>
         <p style="margin: 1rem 0;">&copy; 2026 eBook Systems</p>
         <div style="opacity: 0.5; font-size: 0.75rem;">
-            Data Integrity Node: EB-MASTER-77 // Secure Connection Active
+            Data Integrity Node: EB-MASTER-77 // Variety Rates [RED:8][Durburn:10]
         </div>
     </footer>
 
@@ -335,7 +310,6 @@
             targetPage.style.display = 'block';
             targetPage.style.opacity = '0';
             targetPage.style.transform = 'translateX(50px)';
-
             targetPage.offsetHeight;
 
             setTimeout(() => {
