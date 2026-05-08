@@ -17,26 +17,25 @@
             --white: #ffffff;
             --gray: #757575;
             --border: #eeeeee;
-            --page-speed: 0.8s;
+            --flip-speed: 1s;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         
         body { 
-            background-color: #121212; /* Darker background makes the "book" pop */
+            background-color: #121212; 
             color: var(--dark); 
             line-height: 1.6; 
             overflow-x: hidden;
-            /* 3D Perspective is required for the flip effect */
-            perspective: 2000px;
+            perspective: 3000px; /* Stronger perspective for a full-page flip */
             min-height: 100vh;
         }
 
-        /* Navigation */
+        /* Navigation - Fixed to top */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 5%; background: var(--dark);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
             position: fixed; top: 0; width: 100%; z-index: 2000;
         }
 
@@ -46,105 +45,105 @@
         .nav-links a:hover { color: var(--primary); }
         .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; }
 
-        /* Book Container */
-        .book {
+        /* The Book Frame */
+        .book-container {
             position: relative;
-            width: 90%;
-            max-width: 1200px;
-            height: 80vh;
-            margin: 120px auto 50px;
+            width: 95%;
+            max-width: 1400px;
+            height: 85vh;
+            margin: 100px auto 20px;
             transform-style: preserve-3d;
         }
 
-        /* Page Container Logic */
+        /* Each Section is a "Full Page" */
         .page { 
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 4rem 8%;
+            padding: 5rem 8%;
             background: var(--light);
-            border-radius: 0 10px 10px 0;
-            box-shadow: 5px 5px 20px rgba(0,0,0,0.3);
+            border-radius: 0 15px 15px 0;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
             
-            /* Flip Animation properties */
+            /* Hinge logic */
             transform-origin: left center;
-            transition: transform var(--page-speed) cubic-bezier(0.645, 0.045, 0.355, 1), 
-                        z-index 0.1s step-end,
-                        opacity var(--page-speed);
+            transition: transform var(--flip-speed) cubic-bezier(0.645, 0.045, 0.355, 1), 
+                        opacity var(--flip-speed),
+                        visibility 0s linear;
             
             backface-visibility: hidden;
             overflow-y: auto;
-            pointer-events: none;
-            opacity: 0;
+            visibility: hidden;
             z-index: 1;
         }
 
-        /* Visual Spine Shadow */
+        /* Book Spine Detail */
         .page::before {
             content: '';
             position: absolute;
             left: 0; top: 0; bottom: 0;
-            width: 20px;
-            background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
+            width: 30px;
+            background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
             z-index: 10;
+            border-left: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* Active Page (Currently viewing) */
+        /* Active Page State */
         .page.active { 
+            visibility: visible;
             transform: rotateY(0deg);
-            opacity: 1;
             z-index: 100;
-            pointer-events: all;
+            opacity: 1;
         }
 
-        /* Turned Page (Flipped to the left) */
+        /* Turned Page State (Flipped Left) */
         .page.turned {
-            transform: rotateY(-110deg);
-            opacity: 0.2; /* Fades slightly as it turns */
+            visibility: visible;
+            transform: rotateY(-120deg);
+            opacity: 0; /* Smooth fade out as it flips */
             z-index: 50;
             pointer-events: none;
         }
 
-        /* Layout for Home Content */
+        /* --- CONTENT STYLES (All Data Preserved) --- */
         #home.page {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('Gemini_Generated_Image_4e5v9g4e5v9g4e5v.png');
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('Gemini_Generated_Image_4e5v9g4e5v9g4e5v.png');
             background-size: cover;
             background-position: center;
             color: white;
         }
 
-        /* Shared Components */
-        h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); color: var(--dark); }
-        .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .feature-item { display: flex; gap: 1rem; }
-        .feature-item i { color: var(--primary); font-size: 1.5rem; }
+        h1 { font-size: 3rem; margin-bottom: 1.5rem; line-height: 1.1; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .card { background: white; padding: 2rem; border-radius: 15px; border: 1px solid var(--border); box-shadow: 0 4px 6px rgba(0,0,0,0.02); color: var(--dark); }
+        
+        .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 3rem; }
+        .feature-item { display: flex; gap: 1.5rem; align-items: flex-start; }
+        .feature-item i { color: var(--primary); font-size: 2rem; }
 
-        /* Status & Tables */
-        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; background: #ffebee; color: var(--primary); }
-        .table-container { overflow-x: auto; margin-top: 1rem; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th, td { padding: 1.2rem; border-bottom: 1px solid var(--border); text-align: left; }
+        .status-badge { padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; background: #ffebee; color: var(--primary); }
+        .status-standby { background: #eeeeee; color: #666; }
 
-        /* Hero UI */
-        .hero { display: flex; align-items: center; justify-content: space-between; gap: 3rem; width: 100%; }
-        .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: white; border-radius: 12px; overflow: hidden; }
+        th { text-align: left; padding: 1.5rem; background: #f8f8f8; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+        td { padding: 1.5rem; border-bottom: 1px solid var(--border); }
 
-        /* Login */
-        .login-container { max-width: 400px; margin: 0 auto; text-align: center; }
-        input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 8px; margin-bottom: 1.5rem; }
-        .btn-submit { width: 100%; background: var(--primary); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .hero { display: flex; align-items: center; justify-content: space-between; gap: 4rem; height: 100%; }
+        .ops-preview { background: var(--dark); color: white; padding: 3rem; border-radius: 25px; width: 450px; border: 1px solid #333; }
 
-        footer { text-align: center; padding: 4rem 5%; background: var(--dark); color: #999; position: relative; z-index: 100; }
+        input { width: 100%; padding: 1.2rem; border: 1px solid #ddd; border-radius: 10px; margin-top: 10px; font-size: 1rem; }
+        .btn-submit { width: 100%; background: var(--primary); color: white; padding: 1.2rem; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1.1rem; margin-top: 1rem; }
+
+        footer { text-align: center; padding: 3rem; color: #666; background: #121212; position: relative; z-index: 10; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-tomato"></i>eBook</div>
+        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-book-open"></i> eBook</div>
         <ul class="nav-links">
             <li><a onclick="showPage('about')">Methodology</a></li>
             <li><a onclick="showPage('operations')">Operations</a></li>
@@ -153,97 +152,139 @@
         </ul>
     </nav>
 
-    <main class="book">
-        <!-- PAGE 1: HOME -->
+    <main class="book-container">
+        
+        <!-- SECTION: HOME -->
         <section id="home" class="page active">
             <div class="hero">
                 <div class="hero-text">
                     <h1>eBook <br><span style="color: var(--accent);">Field Intelligence.</span></h1>
-                    <p style="max-width: 500px; font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem;">
-                        The specialized platform for <strong>Supervisor-driven</strong> harvest data collection.
+                    <p style="font-size: 1.3rem; max-width: 600px; margin-bottom: 2.5rem; opacity: 0.9;">
+                        The specialized platform for <strong>Supervisor-driven</strong> harvest data collection. High-integrity tracking directly from the field.
                     </p>
-                    <div style="display: flex; gap: 1rem;">
-                        <button class="btn-login" style="padding: 1rem 2rem;" onclick="showPage('operations')">Live Operations</button>
-                    </div>
+                    <button class="btn-login" style="padding: 1.2rem 2.5rem; font-size: 1.1rem;" onclick="showPage('operations')">Live Operations</button>
                 </div>
                 <div class="ops-preview">
-                    <h2 style="font-size: 3.5rem;">5,102</h2>
-                    <p style="color: var(--gray); font-size: 0.85rem; text-transform: uppercase;">Verified Crate Count</p>
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 1.5rem;">
+                        <small style="color: var(--primary); font-weight: bold; letter-spacing: 2px;">CORE SYNC ACTIVE</small>
+                        <i class="ph-bold ph-broadcast" style="color: var(--primary)"></i>
+                    </div>
+                    <h2 style="font-size: 4rem;">5,102</h2>
+                    <p style="color: var(--gray); margin-bottom: 2rem;">VERIFIED CRATE COUNT</p>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border-left: 5px solid var(--primary);">
+                        <small style="color: var(--gray);">Latest Entry:</small><br>
+                        <strong style="font-size: 1.2rem;">Supervisor Kelvin K.</strong><br>
+                        <small style="color: var(--gray);">Zone A-01</small>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 2: ABOUT -->
+        <!-- SECTION: ABOUT (METHODOLOGY) -->
         <section id="about" class="page">
             <h1 style="color: var(--primary);">The eBook Methodology</h1>
-            <p style="font-size: 1.2rem; color: var(--gray); margin-bottom: 3rem;">
-                eBook is engineered on the principle that field-level data must be verified at the source.
+            <p style="font-size: 1.4rem; color: var(--gray); margin-bottom: 4rem; max-width: 900px;">
+                eBook is engineered on the principle that field-level data must be verified at the source. Collection authority rests with Supervisors.
             </p>
             <div class="feature-list">
                 <div class="feature-item">
                     <i class="ph-bold ph-user-check"></i>
-                    <div><h3>Supervisor Collection</h3><p>Verified before leaving the harvest zone.</p></div>
+                    <div>
+                        <h3>Supervisor Collection</h3>
+                        <p>Human-led data entry ensures that crate quality and counts are verified before leaving the zone.</p>
+                    </div>
                 </div>
                 <div class="feature-item">
                     <i class="ph-bold ph-shield-check"></i>
-                    <div><h3>Data Integrity</h3><p>Cryptographically signed credentials.</p></div>
+                    <div>
+                        <h3>Data Integrity</h3>
+                        <p>Every entry is cryptographically signed by assigned Supervisor credentials for audit-ready reporting.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="ph-bold ph-lock-key"></i>
+                    <div>
+                        <h3>Multi-Tenant Vaults</h3>
+                        <p>Enterprise-grade security keeps separate farm data isolated through advanced RLS.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="ph-bold ph-chart-line-up"></i>
+                    <div>
+                        <h3>Real-time Tracking</h3>
+                        <p>Instantly monitor seasonal yields and daily performance targets as data flows in.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 3: OPERATIONS -->
+        <!-- SECTION: OPERATIONS -->
         <section id="operations" class="page">
             <h1>Field Operations</h1>
+            <p style="color: var(--gray); margin-bottom: 3rem;">Live status of active harvest zones.</p>
             <div class="grid">
                 <div class="card">
                     <div style="display:flex; justify-content:space-between;"><h3>Zone A-01</h3><span class="status-badge">Active</span></div>
-                    <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                    <small>Lead: <strong>Supervisor Kelvin K.</strong></small>
+                    <p style="font-size: 3rem; font-weight: 800; margin: 1.5rem 0;">1,840</p>
+                    <small>Supervisor: <strong>Kelvin K.</strong></small>
                 </div>
                 <div class="card">
                     <div style="display:flex; justify-content:space-between;"><h3>Zone B-04</h3><span class="status-badge">Active</span></div>
-                    <p style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">912 <small style="font-size: 1rem; color: var(--gray);">crates</small></p>
-                    <small>Lead: <strong>Supervisor Sarah J.</strong></small>
+                    <p style="font-size: 3rem; font-weight: 800; margin: 1.5rem 0;">912</p>
+                    <small>Supervisor: <strong>Sarah J.</strong></small>
+                </div>
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between;"><h3>Zone C-02</h3><span class="status-badge status-standby">Standby</span></div>
+                    <p style="font-size: 3rem; font-weight: 800; margin: 1.5rem 0;">0</p>
+                    <small>Supervisor: <strong>Mike L.</strong></small>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 4: TEAMS -->
+        <!-- SECTION: TEAMS -->
         <section id="teams" class="page">
             <h1>Supervisor Directory</h1>
-            <div class="card">
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr><th>Supervisor</th><th>eBook ID</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><strong>Kelvin K.</strong></td><td>EB-901</td><td><span style="color:green;">● Online</span></td></tr>
-                            <tr><td><strong>Sarah J.</strong></td><td>EB-112</td><td><span style="color:green;">● Online</span></td></tr>
-                            <tr><td><strong>Mike L.</strong></td><td>EB-005</td><td><span style="color:gray;">● Ready</span></td></tr>
-                        </tbody>
-                    </table>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Supervisor</th>
+                            <th>eBook ID</th>
+                            <th>Assigned Zone</th>
+                            <th>Total Collected</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Kelvin K.</strong></td><td>EB-901</td><td>Zone A-01</td><td>1,840 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>Sarah J.</strong></td><td>EB-112</td><td>Zone B-04</td><td>912 Crates</td><td><span style="color:green;">● Online</span></td></tr>
+                        <tr><td><strong>Mike L.</strong></td><td>EB-005</td><td>Zone C-02</td><td>0 Crates</td><td><span style="color:gray;">● Ready</span></td></tr>
+                        <tr><td><strong>David O.</strong></td><td>EB-442</td><td>Zone D-09</td><td>655 Crates</td><td><span style="color:orange;">● Syncing</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION: LOGIN -->
+        <section id="login" class="page">
+            <div class="login-container">
+                <i class="ph-fill ph-fingerprint" style="font-size: 5rem; color: var(--primary);"></i>
+                <h1 style="margin-top: 1.5rem;">Access Portal</h1>
+                <div class="card" style="margin-top: 3rem; text-align: left;">
+                    <label>Supervisor ID</label>
+                    <input type="text" placeholder="EB-XXX-XXX">
+                    <label style="display:block; margin-top:1.5rem;">Access Code</label>
+                    <input type="password" placeholder="••••">
+                    <button class="btn-submit" onclick="alert('Establishing Secure Link...')">Login to Field Portal</button>
                 </div>
             </div>
         </section>
 
-        <!-- PAGE 5: LOGIN -->
-        <section id="login" class="page">
-            <div class="login-container">
-                <i class="ph-fill ph-fingerprint" style="font-size: 4rem; color: var(--primary);"></i>
-                <h1 style="margin-top:1rem;">Supervisor Access</h1>
-                <div class="card" style="margin-top: 2rem;">
-                    <input type="text" placeholder="Supervisor ID">
-                    <input type="password" placeholder="Access Code">
-                    <button class="btn-submit" onclick="alert('Accessing Vault...')">Login</button>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer>
-        <span class="footer-brand">eBook</span>
         <p>&copy; 2026 eBook Systems | Developed by Kelvin Kadzenje</p>
+        <small style="opacity: 0.5;">Secure Node: EB-MASTER-77</small>
     </footer>
 
     <script>
@@ -256,20 +297,17 @@
                 page.classList.remove('active', 'turned');
 
                 if (index < targetIndex) {
-                    // This page is "behind" us, turn it to the left
+                    // Turn previous pages to the left
                     page.classList.add('turned');
                 } else if (index === targetIndex) {
-                    // This is the page we want to see
+                    // Make selected page active
                     page.classList.add('active');
-                } else {
-                    // This page is "ahead" of us, keep it flat but hidden
                 }
             });
-            
-            // Scroll to top of book container
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Ensure we start at the top of the new page
+            document.querySelector('.book-container').scrollTo(0,0);
         }
     </script>
-
 </body>
 </html>
