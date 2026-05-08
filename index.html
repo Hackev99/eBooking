@@ -92,6 +92,17 @@
         .hero-text { flex: 1; }
         .ops-preview { background: var(--dark); color: white; padding: 2rem; border-radius: 20px; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
+        /* Graph Styling */
+        .hero-graph-container { 
+            margin-top: 2.5rem; 
+            background: rgba(255,255,255,0.05); 
+            padding: 1.5rem; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            backdrop-filter: blur(10px); 
+            max-width: 500px;
+        }
+
         /* Forms */
         .login-container { max-width: 400px; margin: 2rem auto; text-align: center; }
         .form-group { text-align: left; margin-bottom: 1.5rem; }
@@ -122,11 +133,34 @@
                 <p style="max-width: 500px; font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem;">
                     The specialized platform for <strong>Supervisor-driven</strong> harvest data collection. High-integrity tracking directly from the field.
                 </p>
-                <div style="display: flex; gap: 1rem;">
+                <div style="display: flex; gap: 1rem; margin-bottom: 2.5rem;">
                     <button class="btn-login" style="padding: 1rem 2rem;" onclick="showPage('operations')">Live Operations</button>
                     <button class="btn-login" style="padding: 1rem 2rem; background: transparent; border: 2px solid white;" onclick="showPage('about')">Learn More</button>
                 </div>
+
+                <div class="hero-graph-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span style="font-size: 0.75rem; font-weight: bold; letter-spacing: 1px; color: var(--accent);">HOURLY YIELD TREND</span>
+                        <span style="font-size: 0.65rem; color: #bbb;">LIVE NETWORK STATUS</span>
+                    </div>
+                    <div style="display: flex; align-items: flex-end; gap: 8px; height: 80px;">
+                        <div style="height: 35%; width: 100%; background: var(--primary); opacity: 0.4; border-radius: 3px;"></div>
+                        <div style="height: 55%; width: 100%; background: var(--primary); opacity: 0.5; border-radius: 3px;"></div>
+                        <div style="height: 80%; width: 100%; background: var(--primary); opacity: 0.7; border-radius: 3px;"></div>
+                        <div style="height: 45%; width: 100%; background: var(--primary); opacity: 0.5; border-radius: 3px;"></div>
+                        <div style="height: 95%; width: 100%; background: var(--accent); border-radius: 3px; box-shadow: 0 0 15px var(--accent);"></div>
+                        <div style="height: 65%; width: 100%; background: var(--primary); opacity: 0.8; border-radius: 3px;"></div>
+                        <div style="height: 40%; width: 100%; background: var(--primary); opacity: 0.4; border-radius: 3px;"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.6rem; font-size: 0.6rem; color: #999; text-transform: uppercase;">
+                        <span>06:00</span>
+                        <span>10:00</span>
+                        <span>14:00 (Peak)</span>
+                        <span>18:00</span>
+                    </div>
+                </div>
             </div>
+
             <div class="ops-preview">
                 <div style="display:flex; justify-content:space-between; margin-bottom: 1rem;">
                     <small style="color: var(--primary); font-weight: bold; letter-spacing: 1px;">EBOOK CORE SYNC</small>
