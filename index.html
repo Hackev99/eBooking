@@ -108,7 +108,7 @@
 <body>
 
     <nav>
-        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-tomato"></i>eBook</div>
+        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-book-open"></i>eBook</div>
         <ul class="nav-links">
             <li><a onclick="showPage('about')">About System</a></li>
             <li><a onclick="showPage('operations')">Operations</a></li>
@@ -286,18 +286,14 @@
 
             if (targetPage.classList.contains('active')) return;
 
-            // Start "closing" the current page
             pages.forEach(page => {
                 if (page.classList.contains('active')) {
                     page.style.opacity = '0';
                     page.style.transform = 'translateX(-50px)';
                     
-                    // Wait for fade out before switching display
                     setTimeout(() => {
                         page.classList.remove('active');
                         page.style.display = 'none';
-                        
-                        // "Open" the new page
                         openNewPage(targetPage);
                     }, 400); 
                 }
@@ -309,7 +305,6 @@
             targetPage.style.opacity = '0';
             targetPage.style.transform = 'translateX(50px)';
 
-            // Trigger reflow
             targetPage.offsetHeight;
 
             setTimeout(() => {
