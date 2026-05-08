@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eBook | Supervisor Field Portal</title>
+    <title>eBook | Field Intelligence Portal</title>
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
@@ -17,149 +17,112 @@
             --white: #ffffff;
             --gray: #757575;
             --border: #eeeeee;
-            --flip-speed: 0.75s;
-            --nav-height: 70px;
+            --flip-speed: 0.8s;
+            --nav-height: 80px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         
         body { 
-            background-color: #0f0f0f; 
+            background-color: #0a0a0a; 
             color: var(--dark); 
-            overflow: hidden; /* Prevents double scrollbars */
+            overflow: hidden; 
             perspective: 2500px;
             height: 100vh;
         }
 
-        /* Fixed Navigation */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 5%; 
-            height: var(--nav-height);
+            padding: 0 5%; height: var(--nav-height);
             background: var(--dark);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6); 
-            position: fixed; top: 0; width: 100%; z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8); 
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 2000;
         }
 
         .logo { display: flex; align-items: center; gap: 10px; font-size: 1.5rem; font-weight: 800; color: var(--primary); cursor: pointer; }
         .nav-links { display: flex; list-style: none; gap: 2rem; align-items: center; }
         .nav-links a { text-decoration: none; color: var(--white); font-weight: 600; cursor: pointer; transition: 0.3s; opacity: 0.8; }
         .nav-links a:hover { color: var(--primary); opacity: 1; }
-        .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.5rem 1.2rem; border-radius: 6px; border: none; cursor: pointer; }
+        .btn-login { background: var(--primary); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 6px; border: none; cursor: pointer; }
 
-        /* The Main Stage */
         .book-wrapper {
             width: 100%;
             height: calc(100vh - var(--nav-height));
             margin-top: var(--nav-height);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: flex; align-items: center; justify-content: center;
+            padding: 30px 20px;
         }
 
         .book-container {
             position: relative;
             width: 95%;
-            max-width: 1300px;
-            height: 90%;
+            max-width: 1400px;
+            height: 100%;
             transform-style: preserve-3d;
         }
 
-        /* Page Styling */
         .page { 
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            padding: 3rem 6%;
+            padding: 3.5rem 5%;
             background: var(--light);
-            border-radius: 0 10px 10px 0;
-            box-shadow: 15px 0 50px rgba(0,0,0,0.4);
-            
+            border-radius: 0 15px 15px 0;
+            box-shadow: 20px 0 60px rgba(0,0,0,0.5);
             transform-origin: left center;
-            transition: transform var(--flip-speed) ease-in-out, opacity var(--flip-speed);
-            
+            transition: transform var(--flip-speed) cubic-bezier(0.45, 0, 0.55, 1), opacity var(--flip-speed);
             backface-visibility: hidden;
             overflow-y: auto;
             z-index: 1;
-            display: none; /* Default hidden */
+            display: none;
         }
 
-        /* Spine shadow effect */
         .page::after {
             content: '';
             position: absolute;
             left: 0; top: 0; bottom: 0;
             width: 40px;
-            background: linear-gradient(to right, rgba(0,0,0,0.12), transparent);
+            background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
             pointer-events: none;
         }
 
-        /* Page States */
-        .page.active { 
-            display: block;
-            transform: rotateY(0deg);
-            z-index: 100;
-        }
+        .page.active { display: block; transform: rotateY(0deg); z-index: 100; }
+        .page.turned { display: block; transform: rotateY(-108deg); z-index: 50; opacity: 0; pointer-events: none; }
 
-        .page.turned {
-            display: block;
-            transform: rotateY(-105deg);
-            z-index: 50;
-            pointer-events: none;
-            opacity: 0.3;
-        }
-
-        /* Content Adjustments */
-        #home.page {
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
-                        url('https://images.unsplash.com/photo-1595079676339-1534802ad6cf?auto=format&fit=crop&w=1400&q=80');
-            background-size: cover;
-            color: white;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-layout {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            gap: 2rem;
-        }
-
+        /* Typography */
+        h1 { font-size: 2.8rem; margin-bottom: 1.5rem; color: var(--dark); border-left: 5px solid var(--primary); padding-left: 15px; }
+        h2 { color: var(--primary); margin-bottom: 1rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        
         .card { 
             background: white; padding: 2rem; border-radius: 12px; 
-            border: 1px solid var(--border); color: var(--dark);
-            margin-bottom: 1rem;
+            border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+        /* Stats & Labels */
+        .stat-val { font-size: 2.2rem; font-weight: 800; margin: 0.5rem 0; color: var(--dark); }
+        .tag { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        .tag-active { background: #e8f5e9; color: #2e7d32; }
+        .tag-sync { background: #fff3e0; color: #ef6c00; }
 
-        .ops-preview { 
-            background: rgba(26, 26, 26, 0.95); 
-            color: white; padding: 2.5rem; border-radius: 20px; 
-            width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th { text-align: left; padding: 1rem; background: #f5f5f5; color: var(--gray); font-size: 0.85rem; }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+
+        #home.page {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1500&q=80');
+            background-size: cover; color: white; display: flex; align-items: center;
         }
 
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background: #f4f4f4; font-size: 0.8rem; letter-spacing: 1px; color: var(--gray); }
-
-        .login-box { max-width: 400px; margin: 0 auto; text-align: center; }
-        input { width: 100%; padding: 0.8rem; margin: 0.5rem 0 1.2rem; border: 1px solid #ddd; border-radius: 8px; }
-
-        footer {
-            position: fixed; bottom: 10px; width: 100%; text-align: center;
-            color: rgba(255,255,255,0.4); font-size: 0.8rem; z-index: 5;
-        }
+        footer { position: fixed; bottom: 10px; width: 100%; text-align: center; color: #555; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-leaf"></i> eBook</div>
+        <div class="logo" onclick="showPage('home')"><i class="ph-fill ph-book-open"></i> eBook</div>
         <ul class="nav-links">
-            <li><a onclick="showPage('about')">About</a></li>
+            <li><a onclick="showPage('about')">Methodology</a></li>
             <li><a onclick="showPage('operations')">Operations</a></li>
             <li><a onclick="showPage('teams')">Supervisors</a></li>
             <li><button class="btn-login" onclick="showPage('login')">Portal Login</button></li>
@@ -169,104 +132,133 @@
     <div class="book-wrapper">
         <main class="book-container">
             
-            <!-- PAGE 1: HOME -->
             <section id="home" class="page active">
-                <div class="hero-layout">
-                    <div style="flex: 1;">
-                        <h1 style="font-size: 3.5rem;">eBook <br><span style="color: var(--accent);">Field Intelligence.</span></h1>
-                        <p style="font-size: 1.2rem; margin: 1.5rem 0 2.5rem; opacity: 0.9; max-width: 550px;">
-                            High-integrity tracking directly from the field. Optimized for Supervisor-led harvest verification.
-                        </p>
-                        <button class="btn-login" style="padding: 1rem 2rem;" onclick="showPage('operations')">View Live Ops</button>
-                    </div>
-                    <div class="ops-preview">
-                        <small style="color: var(--primary); font-weight: bold;">LIVE SYNC</small>
-                        <h2 style="font-size: 4rem; margin: 0.5rem 0;">5,102</h2>
-                        <p style="color: var(--gray);">TOTAL CRATE COUNT</p>
-                        <hr style="border: 0; border-top: 1px solid #333; margin: 1.5rem 0;">
-                        <p><strong>Kelvin K.</strong> logged 40 crates in <strong>Zone A-01</strong></p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGE 2: ABOUT -->
-            <section id="about" class="page">
-                <h1 style="color: var(--primary); margin-bottom: 1rem;">Methodology</h1>
-                <p style="color: var(--gray); margin-bottom: 2rem;">How we ensure data integrity at the source.</p>
-                <div class="grid">
-                    <div class="card">
-                        <i class="ph ph-shield-check" style="font-size: 2rem; color: var(--primary);"></i>
-                        <h3 style="margin: 1rem 0;">Data Integrity</h3>
-                        <p>Every entry is cryptographically signed by the assigned Supervisor's credentials.</p>
-                    </div>
-                    <div class="card">
-                        <i class="ph ph-users-three" style="font-size: 2rem; color: var(--primary);"></i>
-                        <h3 style="margin: 1rem 0;">Human Verified</h3>
-                        <p>Supervisors visually inspect crate quality before digital submission.</p>
-                    </div>
-                    <div class="card">
-                        <i class="ph ph-database" style="font-size: 2rem; color: var(--primary);"></i>
-                        <h3 style="margin: 1rem 0;">RLS Security</h3>
-                        <p>Row-Level Security ensures that farm data is isolated and protected.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGE 3: OPERATIONS -->
-            <section id="operations" class="page">
-                <h1>Field Operations</h1>
-                <p style="margin-bottom: 2rem; color: var(--gray);">Active zones monitored via eBook nodes.</p>
-                <div class="grid">
-                    <div class="card">
-                        <div style="display:flex; justify-content:space-between;"><strong>Zone A-01</strong> <span style="color: green;">● Active</span></div>
-                        <h2 style="font-size: 2.5rem; margin: 1rem 0;">1,840 <small style="font-size: 1rem; color: #999;">crates</small></h2>
-                        <small>Supervisor: Kelvin K.</small>
-                    </div>
-                    <div class="card">
-                        <div style="display:flex; justify-content:space-between;"><strong>Zone B-04</strong> <span style="color: green;">● Active</span></div>
-                        <h2 style="font-size: 2.5rem; margin: 1rem 0;">912 <small style="font-size: 1rem; color: #999;">crates</small></h2>
-                        <small>Supervisor: Sarah J.</small>
-                    </div>
-                    <div class="card">
-                        <div style="display:flex; justify-content:space-between;"><strong>Zone C-02</strong> <span style="color: #666;">● Standby</span></div>
-                        <h2 style="font-size: 2.5rem; margin: 1rem 0;">0 <small style="font-size: 1rem; color: #999;">crates</small></h2>
-                        <small>Supervisor: Mike L.</small>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PAGE 4: SUPERVISORS -->
-            <section id="teams" class="page">
-                <h1>Supervisor Directory</h1>
-                <div style="margin-top: 2rem;">
-                    <table>
-                        <thead>
-                            <tr><th>Name</th><th>ID</th><th>Assigned Zone</th><th>Total</th><th>Status</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Kelvin K.</td><td>EB-901</td><td>Zone A-01</td><td>1,840</td><td>Online</td></tr>
-                            <tr><td>Sarah J.</td><td>EB-112</td><td>Zone B-04</td><td>912</td><td>Online</td></tr>
-                            <tr><td>Mike L.</td><td>EB-005</td><td>Zone C-02</td><td>0</td><td>Ready</td></tr>
-                            <tr><td>David O.</td><td>EB-442</td><td>Zone D-09</td><td>655</td><td>Syncing</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- PAGE 5: LOGIN -->
-            <section id="login" class="page">
-                <div class="login-box">
-                    <i class="ph-fill ph-fingerprint" style="font-size: 4rem; color: var(--primary);"></i>
-                    <h1 style="margin: 1.5rem 0;">Portal Access</h1>
-                    <div class="card">
-                        <div style="text-align: left;">
-                            <label>Supervisor ID</label>
-                            <input type="text" placeholder="EB-XXX-XXX">
-                            <label>Secure Passkey</label>
-                            <input type="password" placeholder="••••">
-                            <button class="btn-login" style="width: 100%; padding: 1rem;" onclick="alert('Syncing...')">Login to Field Portal</button>
+                <div style="width: 100%;">
+                    <h1 style="color: white; border-color: var(--accent);">Intelligence in the Field.</h1>
+                    <p style="font-size: 1.4rem; max-width: 700px; margin-bottom: 2rem; line-height: 1.5; opacity: 0.9;">
+                        The specialized eBook framework provides <strong>Real-Time Yield Synchronization</strong>. 
+                        Bridging the gap between manual harvest and enterprise logistics.
+                    </p>
+                    <div style="display: flex; gap: 2rem; margin-top: 3rem;">
+                        <div>
+                            <p style="color: var(--accent); font-weight: bold; font-size: 2rem;">12+</p>
+                            <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Active Nodes</p>
+                        </div>
+                        <div style="border-left: 1px solid rgba(255,255,255,0.2); padding-left: 2rem;">
+                            <p style="color: var(--accent); font-weight: bold; font-size: 2rem;">99.9%</p>
+                            <p style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Data Integrity</p>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section id="about" class="page">
+                <h1>The Core Methodology</h1>
+                <p style="color: var(--gray); margin-bottom: 2.5rem;">Our structural approach to decentralized data verification.</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <i class="ph ph-fingerprint" style="font-size: 2.5rem; color: var(--primary);"></i>
+                        <h3>Authentication</h3>
+                        <p>Supervisors use biometric-linked IDs (EB-Nodes) to sign off on every crate batch, ensuring absolute accountability.</p>
+                    </div>
+                    <div class="card">
+                        <i class="ph ph-broadcast" style="font-size: 2.5rem; color: var(--primary);"></i>
+                        <h3>Edge Syncing</h3>
+                        <p>Data is stored locally on Supervisor devices and synced via encrypted tunnels to the central eBook repository.</p>
+                    </div>
+                    <div class="card">
+                        <i class="ph ph-file-search" style="font-size: 2.5rem; color: var(--primary);"></i>
+                        <h3>Audit Trails</h3>
+                        <p>Immutable logs track every modification, timestamp, and GPS coordinate of the data entry point.</p>
+                    </div>
+                </div>
+
+                <h2>Operational Layers</h2>
+                <div class="card">
+                    <p>The eBook system operates on a <strong>Triple-Check</strong> verification cycle: 
+                    1. Supervisor Entry → 2. Local Node Validation → 3. Cloud Integrity Scan.</p>
+                </div>
+            </section>
+
+            <section id="operations" class="page">
+                <h1>Live Field Operations</h1>
+                <div class="grid">
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between;"><span class="tag tag-active">Active</span> <small>Zone A-01</small></div>
+                        <div class="stat-val">2,145</div>
+                        <p style="color:var(--gray)">Crates Verified Today</p>
+                        <small>Supervisor: <strong>Kelvin Kadzenje</strong></small>
+                    </div>
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between;"><span class="tag tag-active">Active</span> <small>Zone B-04</small></div>
+                        <div class="stat-val">1,082</div>
+                        <p style="color:var(--gray)">Crates Verified Today</p>
+                        <small>Supervisor: <strong>Sarah J.</strong></small>
+                    </div>
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between;"><span class="tag tag-sync">Syncing</span> <small>Zone D-09</small></div>
+                        <div class="stat-val">856</div>
+                        <p style="color:var(--gray)">Processing Node...</p>
+                        <small>Supervisor: <strong>David O.</strong></small>
+                    </div>
+                </div>
+
+                <h2>Hourly Yield Analysis</h2>
+                <div class="card">
+                    <div style="height: 150px; display: flex; align-items: flex-end; gap: 10px; padding-bottom: 20px;">
+                        <div style="flex:1; background:var(--primary); height: 40%;"></div>
+                        <div style="flex:1; background:var(--primary); height: 60%;"></div>
+                        <div style="flex:1; background:var(--primary); height: 90%;"></div>
+                        <div style="flex:1; background:var(--primary); height: 75%;"></div>
+                        <div style="flex:1; background:var(--border); height: 20%;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; color:var(--gray); font-size:0.7rem;">
+                        <span>08:00</span><span>10:00</span><span>12:00</span><span>14:00</span><span>16:00</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teams" class="page">
+                <h1>Supervisor Directory</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Supervisor Name</th>
+                            <th>Node ID</th>
+                            <th>Assigned Region</th>
+                            <th>Total Performance</th>
+                            <th>Network Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Kelvin Kadzenje</strong></td><td>EB-901-Z1</td><td>Western Cape</td><td>14,500 Crates</td><td style="color: green;">● Online</td></tr>
+                        <tr><td><strong>Sarah Jenkins</strong></td><td>EB-112-Z4</td><td>Lutzville</td><td>9,200 Crates</td><td style="color: green;">● Online</td></tr>
+                        <tr><td><strong>Michael Louw</strong></td><td>EB-005-Z2</td><td>Koekenaap</td><td>11,400 Crates</td><td style="color: #666;">● Ready</td></tr>
+                        <tr><td><strong>David Okoro</strong></td><td>EB-442-Z9</td><td>Vredendal</td><td>7,100 Crates</td><td style="color: orange;">● Syncing</td></tr>
+                        <tr><td><strong>Linda Meyer</strong></td><td>EB-331-Z3</td><td>Clanwilliam</td><td>12,900 Crates</td><td style="color: green;">● Online</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="login" class="page">
+                <div style="max-width: 500px; margin: 0 auto; text-align: center; padding-top: 2rem;">
+                    <i class="ph-fill ph-shield-checkered" style="font-size: 5rem; color: var(--primary);"></i>
+                    <h1 style="border:none; padding:0; margin-bottom: 10px;">Portal Access</h1>
+                    <p style="color: var(--gray); margin-bottom: 2rem;">Encrypted Field-to-Core Authorization</p>
+                    
+                    <div class="card" style="text-align: left;">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="font-size: 0.8rem; font-weight: bold; text-transform: uppercase; color: var(--gray);">Node Identity</label>
+                            <input type="text" placeholder="EB-XXX-XXX-X" style="width:100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px;">
+                        </div>
+                        <div style="margin-bottom: 2rem;">
+                            <label style="font-size: 0.8rem; font-weight: bold; text-transform: uppercase; color: var(--gray);">Access Vault Key</label>
+                            <input type="password" placeholder="••••••••" style="width:100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px;">
+                        </div>
+                        <button class="btn-login" style="width: 100%; padding: 1.2rem; font-size: 1rem;">Authorize Connection</button>
+                    </div>
+                    <p style="margin-top: 2rem; font-size: 0.7rem; color: #999;">WARNING: All access attempts are logged and geofenced to the harvest perimeter.</p>
                 </div>
             </section>
 
@@ -274,7 +266,7 @@
     </div>
 
     <footer>
-        &copy; 2026 eBook | Data Integrity Node EB-MASTER-77 | Developed by Kelvin Kadzenje
+        &copy; 2026 eBook Systems | Secure Node EB-MASTER-77 | Developed by Kelvin Kadzenje
     </footer>
 
     <script>
@@ -284,9 +276,7 @@
             const targetIndex = pages.indexOf(targetPage);
 
             pages.forEach((page, index) => {
-                // Reset state
                 page.classList.remove('active', 'turned');
-                
                 if (index < targetIndex) {
                     page.classList.add('turned');
                 } else if (index === targetIndex) {
