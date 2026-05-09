@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The eBOOK</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --eb-green: #388e3c;
+            --eb-dark-green: #2e7d32;
+            --eb-blue: #1a237e;
+            --eb-light-blue: #e8eaf6;
+            --eb-yellow: #ffc107;
+            --eb-red: #d32f2f;
+            --bg-light: #f4f7f6;
+            --white: #ffffff;
+            --text-dark: #333;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-light); color: var(--text-dark); height: 100vh; overflow: hidden; line-height: 1.6; }
+
+        /* NAVIGATION */
+        header {
+            background-color: var(--eb-green);
+            color: white;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+        .back-btn { position: absolute; left: 15px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; display: none; }
+        header h1 { font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 800; }
+
+        .viewport { height: calc(100vh - 65px); overflow-y: auto; padding: 20px; padding-bottom: 180px; }
+        .page { display: none; width: 100%; max-width: 800px; margin: 0 auto; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .page.active { display: block; }
+
+        /* DASHBOARD */
+        .welcome-section { margin-bottom: 30px; border-left: 5px solid var(--eb-green); padding-left: 15px; }
+        .welcome-section h2 { font-size: 1.5rem; color: var(--eb-blue); }
+        .welcome-section p { color: #666; font-size: 0.9rem; }
+
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .nav-card { 
+            background: white; border-radius: 20px; padding: 35px 10px; text-align: center; 
+            cursor: pointer; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .nav-card:active { transform: scale(0.95); background: #fafafa; }
+        .nav-card i { font-size: 3rem; color: var(--eb-green); margin-bottom: 12px; display: block; }
+        .nav-card h3 { font-size: 1rem; font-weight: bold; color: var(--eb-blue); }
+
+        /* SEARCH & FILTERS */
+        .search-wrapper { position: relative; margin-bottom: 20px; }
+        .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        .search-bar { width: 100%; padding: 15px 15px 15px 45px; border-radius: 12px; border: 1px solid #ddd; font-size: 1rem; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+
+        /* WORKER CARDS */
+        .picker-card {
+            background: white; border-radius: 15px; padding: 18px; margin-bottom: 15px;
+            display: grid; grid-template-columns: 1fr 140px; gap: 15px; box-shadow: var(--shadow);
+        }
+        .picker-info h2 { font-size: 1.2rem; color: var(--eb-blue); margin: 4px 0; }
+        .tag { font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+        .tag-id { background: var(--eb-light-blue); color: var(--eb-blue); }
+        
+        .progress-container { margin: 12px 0; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .progress-bar-bg { background: #eee; height: 8px; border-radius: 4px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--eb-green); width: 0%; transition: width 0.5s ease; }
+
+        .card-payout { background: var(--eb-blue); color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: 900; font-size: 1.1rem; }
+
+        .action-stack { display: flex; flex-direction: column; gap: 8px; }
+        .btn { border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s; }
+        .btn:active { opacity: 0.7; }
+        .btn-main { background: var(--eb-dark-green); color: white; padding: 15px; font-size: 1rem; }
+        .btn-sub { background: white; border: 1px solid #ddd; padding: 10px; font-size: 0.8rem; }
+        .btn-undo { background: var(--eb-yellow); padding: 10px; font-size: 0.8rem; }
+
+        /* TABLES */
+        .table-container { background: white; border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid #eee; margin-top: 10px; }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: var(--eb-blue); color: white; padding: 15px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .data-table td { padding: 15px; border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; }
+        .data-table tr:last-child td { border-bottom: none; }
+        .amt { font-weight: 800; color: var(--eb-dark-green); }
+        .id-cell { color: #888; font-family: monospace; font-weight: bold; }
+
+        /* FORM */
+        .form-card { background: white; padding: 25px; border-radius: 18px; box-shadow: var(--shadow); }
+        .field-group { margin-bottom: 20px; }
+        .field-group label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--eb-blue); font-size: 0.9rem; }
+        .input-control { width: 100%; padding: 15px; border: 2px solid #f0f0f0; border-radius: 12px; font-size: 1rem; transition: border-color 0.3s; outline: none; }
+        .input-control:focus { border-color: var(--eb-green); }
+
+        /* FOOTER SUMMARY */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white;
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.1); border-top: 1px solid #eee;
+            display: none; padding-bottom: env(safe-area-inset-bottom);
+        }
+        .bottom-nav.visible { display: block; }
+        .summary-banner { background: #f8f9fa; text-align: center; padding: 6px; font-size: 0.7rem; font-weight: bold; color: #888; letter-spacing: 1px; border-bottom: 1px solid #eee; }
+        .summary-content { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; padding: 15px; max-width: 800px; margin: 0 auto; }
+        .stat-item { text-align: center; }
+        .stat-label { font-size: 0.7rem; color: #999; text-transform: uppercase; font-weight: 700; margin-bottom: 2px; display: block; }
+        .stat-value { font-size: 1.3rem; font-weight: 900; color: var(--eb-blue); }
+
+        /* ANALYTICS CIRCLE */
+        .analytics-circle { position: relative; width: 80px; height: 80px; margin: 0 auto; }
+        .circle-svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+        .circle-bg { fill: none; stroke: #f0f0f0; stroke-width: 6; }
+        .circle-bar { fill: none; stroke: var(--eb-green); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 220; stroke-dashoffset: 220; transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .circle-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; }
+        .circle-val { font-size: 1rem; font-weight: 900; display: block; color: var(--text-dark); }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+        .modal-body { background: white; width: 100%; max-width: 450px; border-radius: 25px; padding: 30px; text-align: center; animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes modalPop { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        .modal-icon { width: 70px; height: 70px; background: var(--eb-light-blue); color: var(--eb-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" id="backBtn" onclick="navigation.goHome()"><i class="ph-bold ph-caret-left"></i></button>
+        <h1 id="headerTitle">eBOOK</h1>
+    </header>
+
+    <div class="viewport">
+        <!-- PAGE: DASHBOARD -->
+        <div id="homePage" class="page active">
+            <div class="welcome-section">
+                <h2 id="supervisorName">Kelvin</h2>
+                <p><i class="ph ph-map-pin"></i> Koekenaap, Lutzville</p>
+                <p id="currentDateDisplay" style="font-weight: bold; margin-top: 5px; color: var(--eb-green);"></p>
+            </div>
+            
+            <div class="menu-grid">
+                <div class="nav-card" onclick="navigation.open('pickerListPage', 'Worker Registry')">
+                    <i class="ph-fill ph-users-three"></i>
+                    <h3>Pickers List</h3>
+                </div>
+                <div class="nav-card" onclick="navigation.open('payoutsPage', 'Payment History')">
+                    <i class="ph-fill ph-hand-coins"></i>
+                    <h3>Payouts</h3>
+                </div>
+                <div class="nav-card" onclick="navigation.open('registerPage', 'New Worker')">
+                    <i class="ph-fill ph-user-plus"></i>
+                    <h3>Add Worker</h3>
+                </div>
+                <div class="nav-card" onclick="navigation.open('settingsPage', 'System Config')">
+                    <i class="ph-fill ph-gear-six"></i>
+                    <h3>Settings</h3>
+                </div>
+            </div>
+
+            <!-- QUICK STATS PREVIEW -->
+            <div class="table-container" style="margin-top: 30px;">
+                <div style="padding: 15px; background: var(--eb-light-blue); color: var(--eb-blue); font-weight: bold;">Session Overview</div>
+                <div style="padding: 20px; display: flex; justify-content: space-around; text-align: center;">
+                    <div><span style="display:block; font-size: 0.7rem; color: #888;">ACTIVE WORKERS</span><span id="statActive" style="font-size: 1.5rem; font-weight: 900;">0</span></div>
+                    <div style="width: 1px; background: #eee;"></div>
+                    <div><span style="display:block; font-size: 0.7rem; color: #888;">TOTAL CRATES</span><span id="statCrates" style="font-size: 1.5rem; font-weight: 900;">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: WORKER LIST -->
+        <div id="pickerListPage" class="page">
+            <div class="search-wrapper">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" class="search-bar" id="workerSearch" placeholder="Search workers..." onkeyup="ui.renderWorkers()">
+            </div>
+            <div id="workerListContainer"></div>
+        </div>
+
+        <!-- PAGE: PAYOUTS (UPDATED WITH ID COLUMN) -->
+        <div id="payoutsPage" class="page">
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Worker</th>
+                            <th>Crates</th>
+                            <th>Amount</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payoutTableBody"></tbody>
+                </table>
+            </div>
+            <div id="emptyPayouts" style="text-align: center; padding: 40px; color: #aaa; display: none;">
+                <i class="ph ph-receipt" style="font-size: 3rem; margin-bottom: 10px; display: block;"></i>
+                <p>No transactions today</p>
+            </div>
+        </div>
+
+        <!-- PAGE: REGISTER -->
+        <div id="registerPage" class="page">
+            <div class="form-card">
+                <div class="field-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" class="input-control" placeholder="Enter name">
+                </div>
+                <div class="field-group">
+                    <label>ID Number (Optional)</label>
+                    <input type="number" id="regID" class="input-control" placeholder="Enter ID">
+                </div>
+                <button class="btn btn-main" style="width: 100%;" onclick="actions.registerWorker()">
+                    <i class="ph ph-check-circle"></i> SAVE PROFILE
+                </button>
+            </div>
+        </div>
+
+        <!-- PAGE: SETTINGS -->
+        <div id="settingsPage" class="page">
+            <div class="form-card">
+                <div class="field-group">
+                    <label>Crate Rate (ZAR)</label>
+                    <input type="number" id="setRate" class="input-control" step="0.50">
+                </div>
+                <div class="field-group">
+                    <label>Daily Goal (Crates/Person)</label>
+                    <input type="number" id="setTarget" class="input-control">
+                </div>
+                <button class="btn btn-main" style="width: 100%; background: var(--eb-blue);" onclick="actions.saveSettings()">
+                    <i class="ph ph-floppy-disk"></i> UPDATE SYSTEM
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLOBAL SUMMARY FOOTER -->
+    <div class="bottom-nav" id="globalSummary">
+        <div class="summary-banner">LIVE HARVEST TRACKER</div>
+        <div class="summary-content">
+            <div class="stat-item">
+                <span class="stat-label">Crates</span>
+                <span class="stat-value" id="sumCrates">0</span>
+            </div>
+            <div class="analytics-circle">
+                <svg class="circle-svg">
+                    <circle class="circle-bg" cx="40" cy="40" r="35"></circle>
+                    <circle class="circle-bar" id="sumCircle" cx="40" cy="40" r="35"></circle>
+                </svg>
+                <div class="circle-content">
+                    <span class="circle-val" id="sumPct">0%</span>
+                </div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Payout</span>
+                <span class="stat-value" id="sumCash">R0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PAYMENT CONFIRMATION -->
+    <div class="modal-overlay" id="payModal">
+        <div class="modal-body">
+            <div class="modal-icon"><i class="ph-fill ph-wallet"></i></div>
+            <h3 id="payWorkerName" style="color: var(--eb-blue);">Worker Name</h3>
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 15px; margin: 20px 0;">
+                <p style="font-size: 0.8rem; color: #888; text-transform: uppercase; font-weight: bold;">Net Payout Amount</p>
+                <h1 id="payAmount" style="font-size: 2.8rem; color: var(--eb-dark-green);">R 0.00</h1>
+                <p id="payCrates" style="font-weight: bold; color: #555;">0 Crates collected</p>
+            </div>
+            <button class="btn btn-main" style="width: 100%;" onclick="actions.confirmPayout()">
+                COMPLETE TRANSACTION
+            </button>
+            <button class="btn btn-sub" style="width: 100%; margin-top: 10px; border: none; color: #aaa;" onclick="ui.closeModal()">
+                CANCEL
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * eBOOK SYSTEM CORE LOGIC
+         * Managed by Kelvin Kadzenje
+         */
+
+        // 1. STATE MANAGEMENT
+        let state = {
+            config: { rate: 12.50, target: 80 },
+            workers: {
+                101: { name: "A. Pieterse", crates: 12 },
+                102: { name: "M. Jacobs", crates: 45 },
+                103: { name: "S. Williams", crates: 8 }
+            },
+            history: [],
+            activeWorkerId: null
+        };
+
+        // 2. NAVIGATION MODULE
+        const navigation = {
+            open: (pageId, title) => {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+                document.getElementById('headerTitle').innerText = title;
+                document.getElementById('backBtn').style.display = 'block';
+                
+                document.getElementById('globalSummary').classList.toggle('visible', pageId === 'pickerListPage');
+                
+                if (pageId === 'pickerListPage') ui.renderWorkers();
+                if (pageId === 'payoutsPage') ui.renderHistory();
+                if (pageId === 'settingsPage') ui.loadSettings();
+                if (pageId === 'homePage') ui.updateDashboardStats();
+            },
+            goHome: () => {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById('homePage').classList.add('active');
+                document.getElementById('headerTitle').innerText = 'eBOOK SYSTEM';
+                document.getElementById('backBtn').style.display = 'none';
+                document.getElementById('globalSummary').classList.remove('visible');
+                ui.updateDashboardStats();
+            }
+        };
+
+        // 3. UI RENDERING MODULE
+        const ui = {
+            renderWorkers: () => {
+    const container = document.getElementById('workerListContainer');
+    const filter = document.getElementById('workerSearch').value.toLowerCase();
+    container.innerHTML = '';
+
+    Object.keys(state.workers).forEach(id => {
+        const w = state.workers[id];
+        if (w.name.toLowerCase().includes(filter)) {
+            const pct = Math.min(Math.round((w.crates / state.config.target) * 100), 100);
+            const earnings = (w.crates * state.config.rate).toFixed(2);
+            
+            const card = `
+                <div class="picker-card">
+                    <div class="picker-info">
+                        <span class="tag tag-id">ID #${id}</span>
+                        <h2>${w.name}</h2>
+                        <!-- Added Crate Count Display below -->
+                        <p style="font-weight: 800; color: var(--eb-green); font-size: 0.9rem; margin: 5px 0;">
+                            Current: ${w.crates} Crates
+                        </p>
+                        <div class="progress-container">
+                            <div class="progress-text">
+                                <span>Progress</span>
+                                <span>${pct}%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: ${pct}%"></div>
+                            </div>
+                        </div>
+                        <div class="card-payout">R ${earnings}</div>
+                    </div>
+                    <div class="action-stack">
+                        <button class="btn btn-main" onclick="actions.updateCrates(${id}, 1)">
+                            <i class="ph-bold ph-plus"></i> CRATE
+                        </button>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                            <button class="btn btn-undo" onclick="actions.updateCrates(${id}, -1)">UNDO</button>
+                            <button class="btn btn-sub" onclick="ui.openModal(${id})">PAY</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', card);
+        }
+    });
+    ui.updateFooter();
+},
+
+            // UPDATED: Added ID mapping to table row
+            renderHistory: () => {
+                const body = document.getElementById('payoutTableBody');
+                const empty = document.getElementById('emptyPayouts');
+                
+                if (state.history.length === 0) {
+                    body.innerHTML = '';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                empty.style.display = 'none';
+                body.innerHTML = state.history.map(log => `
+                    <tr>
+                        <td class="id-cell">#${log.id}</td>
+                        <td><strong>${log.name}</strong></td>
+                        <td>${log.crates}</td>
+                        <td class="amt">R ${log.amount}</td>
+                        <td style="color:#999; font-size:0.7rem;">${log.time}</td>
+                    </tr>
+                `).join('');
+            },
+
+            updateFooter: () => {
+                const counts = Object.values(state.workers).map(w => w.crates);
+                const totalCrates = counts.reduce((a, b) => a + b, 0);
+                const totalTarget = Object.keys(state.workers).length * state.config.target;
+                const avgPct = totalTarget > 0 ? Math.min(Math.round((totalCrates / totalTarget) * 100), 100) : 0;
+
+                document.getElementById('sumCrates').innerText = totalCrates;
+                document.getElementById('sumCash').innerText = "R " + (totalCrates * state.config.rate).toLocaleString();
+                document.getElementById('sumPct').innerText = avgPct + "%";
+
+                const offset = 220 - (avgPct / 100) * 220;
+                document.getElementById('sumCircle').style.strokeDashoffset = offset;
+            },
+
+            updateDashboardStats: () => {
+                const totalCrates = Object.values(state.workers).reduce((sum, w) => sum + w.crates, 0);
+                document.getElementById('statActive').innerText = Object.keys(state.workers).length;
+                document.getElementById('statCrates').innerText = totalCrates;
+            },
+
+            loadSettings: () => {
+                document.getElementById('setRate').value = state.config.rate;
+                document.getElementById('setTarget').value = state.config.target;
+            },
+
+            openModal: (id) => {
+                state.activeWorkerId = id;
+                const w = state.workers[id];
+                document.getElementById('payWorkerName').innerText = w.name;
+                document.getElementById('payCrates').innerText = `${w.crates} Crates collected`;
+                document.getElementById('payAmount').innerText = "R " + (w.crates * state.config.rate).toFixed(2);
+                document.getElementById('payModal').style.display = 'flex';
+            },
+
+            closeModal: () => {
+                document.getElementById('payModal').style.display = 'none';
+                state.activeWorkerId = null;
+            }
+        };
+
+        // 4. ACTION MODULE
+        const actions = {
+            updateCrates: (id, val) => {
+                state.workers[id].crates = Math.max(0, state.workers[id].crates + val);
+                ui.renderWorkers();
+            },
+
+            // UPDATED: Captures ID for the history log
+            confirmPayout: () => {
+                const id = state.activeWorkerId;
+                const w = state.workers[id];
+                
+                if (w.crates === 0) {
+                    alert("No crates to pay out.");
+                    return;
+                }
+
+                state.history.unshift({
+                    id: id,
+                    name: w.name,
+                    crates: w.crates,
+                    amount: (w.crates * state.config.rate).toFixed(2),
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+
+                w.crates = 0;
+                ui.closeModal();
+                ui.renderWorkers();
+            },
+
+            registerWorker: () => {
+                const name = document.getElementById('regName').value.trim();
+                const id = document.getElementById('regID').value || (Date.now() % 10000);
+
+                if (!name) return alert("Worker name is required.");
+                
+                state.workers[id] = { name: name, crates: 0 };
+                document.getElementById('regName').value = '';
+                document.getElementById('regID').value = '';
+                
+                alert("Worker added successfully!");
+                navigation.open('pickerListPage', 'Worker Registry');
+            },
+
+            saveSettings: () => {
+                state.config.rate = parseFloat(document.getElementById('setRate').value);
+                state.config.target = parseInt(document.getElementById('setTarget').value);
+                alert("System settings updated.");
+                navigation.goHome();
+            }
+        };
+
+        // INITIALIZE
+        document.getElementById('currentDateDisplay').innerText = new Date().toLocaleDateString('en-ZA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        ui.updateDashboardStats();
+    </script>
+</body>
+</html>
